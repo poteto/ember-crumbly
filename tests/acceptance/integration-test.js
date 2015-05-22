@@ -32,24 +32,28 @@ module('Acceptance | ember-crumbly integration test', {
 });
 
 test('routeHierarchy returns the correct number of routes', function(assert) {
-  assert.expect(2);
+  assert.expect(3);
   visit('/foo/bar/baz');
 
   andThen(() => {
     const routeHierarchy = componentInstance.get('routeHierarchy');
+    const numberOfRenderedBreadCrumbs = find('#bootstrapLinkable li').length;
     assert.equal(currentRouteName(), 'foo.bar.baz.index', 'correct current route name');
     assert.equal(routeHierarchy.length, 3, 'returns correct number of routes');
+    assert.equal(numberOfRenderedBreadCrumbs, 3, 'renders the correct number of breadcrumbs');
   });
 });
 
-test('routes that opt-out are not  shown', function(assert) {
-  assert.expect(2);
+test('routes that opt-out are not shown', function(assert) {
+  assert.expect(3);
   visit('/foo/bar/baz/hidden');
 
   andThen(() => {
     const routeHierarchy = componentInstance.get('routeHierarchy');
+    const numberOfRenderedBreadCrumbs = find('#foundationLinkable li').length;
     assert.equal(currentRouteName(), 'foo.bar.baz.hidden', 'correct current route name');
     assert.equal(routeHierarchy.length, 3, 'returns correct number of routes');
+    assert.equal(numberOfRenderedBreadCrumbs, 3, 'renders the correct number of breadcrumbs');
   });
 });
 
@@ -91,12 +95,23 @@ test('bread-crumbs component outputs the right class', function(assert) {
   visit('/foo');
 
   andThen(() => {
-    const foundationList = find('#foundationLinkable');
-    const bootstrapList = find('#bootstrapLinkable');
+    const foundationList = find('ul#foundationLinkable');
+    const bootstrapList = find('ol#bootstrapLinkable');
     const hasCorrectFoundationClass = foundationList.hasClass('breadcrumbs');
     const hasCorrectBootstrapClass = bootstrapList.hasClass('breadcrumb');
     assert.equal(currentRouteName(), 'foo.index', 'correct current route name');
     assert.ok(hasCorrectFoundationClass, 'returns the correct Foundation class');
     assert.ok(hasCorrectBootstrapClass, 'returns the correct Bootstrap class');
+  });
+});
+
+test('bread-crumbs component accepts a block', function(assert) {
+  assert.expect(2);
+  visit('/animal/quadruped/cow/show');
+
+  andThen(() => {
+    const listItemsText = find('#customBlock li span').text();
+    assert.equal(currentRouteName(), 'animal.quadruped.cow.show', 'correct current route name');
+    assert.equal(listItemsText, 'Animals at the ZooCowsMary (5 years old)', 'returns the right text');
   });
 });
