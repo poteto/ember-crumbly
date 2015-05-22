@@ -23,6 +23,10 @@ Router.map(function() {
       });
     });
   });
+
+  this.route('dessert', function() {
+    this.route('cookie');
+  });
 });
 
 export default Router;

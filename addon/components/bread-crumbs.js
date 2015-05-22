@@ -16,6 +16,10 @@ const {
 } = Ember;
 
 const {
+  classify
+} = Ember.String;
+
+const {
   map,
   filter
 } = EnumerableUtils;
@@ -27,6 +31,7 @@ const {
 export default Component.extend({
   layout,
   tagName: 'ol',
+  linkable: true,
   classNameBindings: [ 'breadCrumbClass' ],
   hasBlock: computed.bool('template').readOnly(),
   currentRouteName: computed.readOnly('applicationController.currentRouteName'),
@@ -66,12 +71,6 @@ export default Component.extend({
     }
   }),
 
-  _setDefaults: on('init', function() {
-    setProperties(this, {
-      linkable: true
-    });
-  }),
-
   _splitCurrentRouteName(currentRouteName) {
     return currentRouteName.split('.');
   },
@@ -104,10 +103,16 @@ export default Component.extend({
     const defaultLinkable = get(this, 'linkable');
     const breadCrumbs = map(filteredRouteNames, (name, index) => {
       const path = this._guessRoutePath(routeNames, name, index);
-      const breadCrumb = this._lookupRoute(path).getWithDefault('breadCrumb', {});
+      let breadCrumb = this._lookupRoute(path).getWithDefault('breadCrumb', undefined);
       const breadCrumbType = typeOf(breadCrumb);
 
-      if (breadCrumbType === 'null') {
+      if (breadCrumbType === 'undefined') {
+        breadCrumb = {
+          path,
+          linkable: defaultLinkable,
+          title: classify(name)
+        };
+      } else if (breadCrumbType === 'null') {
         return;
       } else {
         setProperties(breadCrumb, {
