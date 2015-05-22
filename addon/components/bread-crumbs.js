@@ -25,7 +25,7 @@ const {
 } = Logger;
 
 export default Component.extend({
-  layout: layout,
+  layout,
   tagName: 'ol',
   classNameBindings: [ 'breadCrumbClass' ],
   hasBlock: computed.bool('template').readOnly(),
