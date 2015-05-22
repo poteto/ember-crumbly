@@ -1,3 +1,17 @@
-<h2 id="title">Welcome to Ember.js</h2>
+<h2>Bootstrap Linkable</h2>
+{{bread-crumbs id="bootstrapLinkable"}}
+<hr>
+
+<h2>Bootstrap Not Linkable</h2>
+{{bread-crumbs id="bootstrapNotLinkable" linkable=false}}
+<hr>
+
+<h2>Foundation Linkable</h2>
+{{bread-crumbs id="foundationLinkable" tagName="ul" outputStyle="foundation"}}
+<hr>
+
+<h2>Foundation Not Linkable</h2>
+{{bread-crumbs id="foundationNotLinkable" tagName="ul" outputStyle="foundation" linkable=false}}
+<hr>
 
 {{outlet}}
