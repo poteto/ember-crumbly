@@ -66,7 +66,7 @@ export default Ember.Route.extend({
       title: cowName
     }
     
-    set(this, 'breadCrumb", cow);
+    set(this, 'breadCrumb', cow);
   }
 });
 ```
