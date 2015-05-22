@@ -136,7 +136,7 @@ export default Ember.Route.extend({
 });
 ```
 
-Will generate the following breadcrumb: `_Animals_ > Quadrupeds > _Cows_ > Cows with a drinking addiction`. (`_name_` representing a link`).
+Will generate the following breadcrumb: `_Animals_ > Quadrupeds > _Cows_ > Cows with a drinking addiction`. (`_name_` representing a link).
 
 ## Installation
 
