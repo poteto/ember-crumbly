@@ -19,7 +19,7 @@ Basic usage is simple, just add the Component to any template in your applicatio
 
 This will automatically output the current route's hierarchy as a clickable breadcrumb in a HTML structure that Bootstrap or Foundation expects. By default, the Component will simply display the route's inferred name.
 
-For example, the route `foo/bar/baz/1` will display the following breadcrumb: `Foo > Bar > Baz > Show`. In most cases, this won't be exactly how you'd like it, so you can use the following declarative API to update the breadcrumb labels:
+For example, the route `foo/bar/baz/1` will generate the following breadcrumb: `Foo > Bar > Baz > Show`. In most cases, this won't be exactly how you'd like it, so you can use the following declarative API to update the breadcrumb labels:
 
 ```js
 // foo/route.js
@@ -55,7 +55,7 @@ export default Ember.Route.extend({
 // foo/bar/baz/show/route.js
 
 export default Ember.Route.extend({
-  breadCrumb: null,
+  breadCrumb: {},
   afterModel(model) {
     const breadCrumb = get(this, 'breadCrumb');
     const cowName = get(this, 'model.name'); // 'Mary'
@@ -74,7 +74,7 @@ You can also pass in arbitrary properties to the breadCrumb POJO inside your rou
 // foo/bar/baz/show/route.js
 
 export default Ember.Route.extend({
-  breadCrumb: null,
+  breadCrumb: {},
   afterModel(model) {
     const breadCrumb = get(this, 'breadCrumb');
     const cowName = get(this, 'model.name'); // 'Mary'
@@ -91,12 +91,52 @@ export default Ember.Route.extend({
 ```
 
 ```hbs
-{{bread-crumbs outputStyle="bootstrap" linkable=true as |component cow|}}
+{{#bread-crumbs outputStyle="bootstrap" linkable=true as |component cow|}}
   {{cow.name}} ({{cow.age}}) says {{cow.says}}
 {{/bread-crumbs}}
 ```
 
-Which generates the following breadcrumb: `Animals > Quadrupeds > Cows > Mary (5) says Moo!`
+Will generate the following breadcrumb: `Animals > Quadrupeds > Cows > Mary (5) says Moo!`
+
+### Choosing routes to display
+By default, all routes are displayed in the breadcrumb. To have certain routes opt-out of this, simply set `breadCrumb` to `null` inside that particular route.
+
+```js
+// foo/bar/route.js
+
+export default Ember.Route.extend({
+  breadCrumb: null
+});
+```
+
+Will generate the following breadcrumb: `Animals > Cows > Mary (5) says Moo!`
+
+### Explicitly setting linkable routes
+The Component's `linkable` attr applies to all routes by default. You can also explicitly set this on specific routes, by adding `linkable: {true,false}` to the `breadCrumb` POJO in your route.
+
+```js
+// foo/bar/baz/show/route.js
+
+export default Ember.Route.extend({
+  breadCrumb: {
+    title: 'Cows with a drinking addiction',
+    linkable: false
+  }
+});
+```
+
+```js
+// foo/bar/route.js
+
+export default Ember.Route.extend({
+  breadCrumb: {
+    title: 'Quadrupeds',
+    linkable: false
+  }
+});
+```
+
+Will generate the following breadcrumb: `_Animals_ > Quadrupeds > _Cows_ > Cows with a drinking addiction`. (`_name_` representing a link`).
 
 ## Installation
 
