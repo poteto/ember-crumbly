@@ -6,7 +6,6 @@ const {
 
 export default Route.extend({
   breadCrumb: {
-    title: 'I am Bar',
-    linkable: false
+    title: 'I am Bar Index'
   }
 });
