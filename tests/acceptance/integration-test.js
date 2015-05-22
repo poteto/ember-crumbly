@@ -115,3 +115,16 @@ test('bread-crumbs component accepts a block', function(assert) {
     assert.equal(listItemsText, 'Animals at the ZooCowsMary (5 years old)', 'returns the right text');
   });
 });
+
+test('routes with no breadcrumb should render with their capitalized inferred name', function(assert) {
+  assert.expect(2);
+  visit('/dessert/cookie');
+
+  andThen(() => {
+    const listItemsText = find('ol#bootstrapLinkable li a').text();
+    const hasDessertText = listItemsText.indexOf('Dessert') >= 0;
+    const hasCookieText = listItemsText.indexOf('Cookie') >= 0;
+    assert.ok(hasDessertText, 'renders the right inferred name');
+    assert.ok(hasCookieText, 'renders the right inferred name');
+  });
+});
