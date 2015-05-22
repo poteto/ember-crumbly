@@ -4,7 +4,7 @@
 
 Adds a Component to your app that displays the current route hierarchy (commonly known as breadcrumb navigation). Thanks to [@rwjblue](https://github.com/rwjblue) for providing the excellent addon name.
 
-This addon differentiates itself from other similar addons by providing a very declarative way to generate dynamic breadcrumbs.
+This addon provides a very declarative way to generate dynamic breadcrumbs.
 
 ```sh
 $ ember install ember-crumbly

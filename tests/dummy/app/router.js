@@ -14,6 +14,15 @@ Router.map(function() {
       });
     });
   });
+
+  this.route('animal', function() {
+    this.route('quadruped', function() {
+      this.route('cow', function() {
+        this.route('hidden');
+        this.route('show');
+      });
+    });
+  });
 });
 
 export default Router;
