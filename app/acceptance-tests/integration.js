@@ -1,0 +1,1 @@
+export { default } from 'ember-crumbly/acceptance-tests/integration';
