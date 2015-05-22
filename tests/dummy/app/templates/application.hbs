@@ -1,3 +1,26 @@
-<h2 id="title">Welcome to Ember.js</h2>
+<h2>Bootstrap Linkable</h2>
+{{bread-crumbs id="bootstrapLinkable"}}
+<hr>
+
+<h2>Bootstrap Not Linkable</h2>
+{{bread-crumbs id="bootstrapNotLinkable" linkable=false}}
+<hr>
+
+<h2>Foundation Linkable</h2>
+{{bread-crumbs id="foundationLinkable" tagName="ul" outputStyle="foundation"}}
+<hr>
+
+<h2>Foundation Not Linkable</h2>
+{{bread-crumbs id="foundationNotLinkable" tagName="ul" outputStyle="foundation" linkable=false}}
+<hr>
+
+<h2>Custom block</h2>
+{{#bread-crumbs id="customBlock" as |component route|}}
+  {{#if route.age}}
+    <span title={{route.description}}>{{route.name}} ({{route.age}} years old)</span>
+  {{else}}
+    <span title={{route.description}}>{{route.name}}</span>
+  {{/if}}
+{{/bread-crumbs}}
 
 {{outlet}}
