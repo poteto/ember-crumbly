@@ -4,5 +4,5 @@ export function initialize(container, application) {
 
 export default {
   name: 'crumbly',
-  initialize: initialize
+  initialize
 };

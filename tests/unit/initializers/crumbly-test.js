@@ -2,11 +2,11 @@ import Ember from 'ember';
 import { initialize } from '../../../initializers/crumbly';
 import { module, test } from 'qunit';
 
-var container, application;
+let container, application;
 
 module('Unit | Initializer | crumbly', {
-  beforeEach: function() {
-    Ember.run(function() {
+  beforeEach() {
+    Ember.run(() => {
       application = Ember.Application.create();
       container = application.__container__;
       application.deferReadiness();
