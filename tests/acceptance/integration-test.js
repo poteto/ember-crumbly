@@ -122,8 +122,8 @@ test('routes with no breadcrumb should render with their capitalized inferred na
 
   andThen(() => {
     const listItemsText = find('ol#bootstrapLinkable li a').text();
-    const hasDessertText = listItemsText.includes('Dessert');
-    const hasCookieText = listItemsText.includes('Cookie');
+    const hasDessertText = listItemsText.indexOf('Dessert') >= 0;
+    const hasCookieText = listItemsText.indexOf('Cookie') >= 0;
     assert.ok(hasDessertText, 'renders the right inferred name');
     assert.ok(hasCookieText, 'renders the right inferred name');
   });

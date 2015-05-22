@@ -8,7 +8,6 @@ const {
   Component,
   Logger,
   computed,
-  on,
   getWithDefault,
   assert,
   typeOf,
