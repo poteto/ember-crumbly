@@ -13,10 +13,11 @@ $ ember install ember-crumbly
 ## Usage
 
 ### Basic usage 
-Basic usage is simple, just add the Component to any template in your application.
+Basic usage is simple, just add the Component to any template in your application:
 
 ```hbs
-{{bread-crumbs outputStyle="bootstrap" linkable=true}}
+{{bread-crumbs tagName="ol" outputStyle="bootstrap" linkable=true}}
+{{bread-crumbs tagName="ul" outputStyle="foundation" linkable=false}}
 ```
 
 This will automatically output the current route's hierarchy as a clickable breadcrumb in a HTML structure that Bootstrap or Foundation expects. By default, the Component will simply display the route's inferred name.
@@ -59,7 +60,6 @@ export default Ember.Route.extend({
 export default Ember.Route.extend({
   breadCrumb: {},
   afterModel(model) {
-    const breadCrumb = get(this, 'breadCrumb');
     const cowName = get(model, 'name'); // 'Mary'
 
     const cow = {
@@ -105,7 +105,7 @@ export default Ember.Route.extend({
 
 Will generate the following breadcrumb: `Animals > Quadrupeds > Cows > Mary (5) says Moo!`
 
-### Choosing routes to display
+#### Choosing routes to display
 By default, all routes are displayed in the breadcrumb. To have certain routes opt-out of this, simply set `breadCrumb` to `null` inside that particular route.
 
 ```js
@@ -118,7 +118,7 @@ export default Ember.Route.extend({
 
 Will generate the following breadcrumb: `Animals > Cows > Mary (5) says Moo!`
 
-### Explicitly setting linkable routes
+#### Explicitly setting linkable routes
 The Component's `linkable` attr applies to all routes by default. You can also explicitly set this on specific routes, by adding `linkable: {true,false}` to the `breadCrumb` POJO in your route.
 
 ```js
@@ -144,6 +144,33 @@ export default Ember.Route.extend({
 ```
 
 Will generate the following breadcrumb: `_Animals_ > Quadrupeds > _Cows_ > Cows with a drinking addiction`. (`_name_` representing a link).
+
+#### Set different HTML
+The Component essentially generates a parent element, and iterates through the available routes in the hierarchy as child elements. By default, the parent element is a list `<ol>`,  and the child element is a list item `<li>`. You can override this by passing in the appropriate `tagName` and `crumbName` to the Component:
+
+```hbs
+{{bread-crumbs tagName="ul" outputStyle="foundation" linkable=true crumbTag="a" crumbClass="breadcrumb-item"}}
+```
+
+Which generates the following HTML:
+
+```html
+<!-- /foo/bar/baz/show/1 -->
+<ul class="breadcrumbs">
+  <li class="breadcrumb-item">
+    <a id="ember404" class="ember-view" href="/foo">Animals</a>
+  </li>
+  <li class="breadcrumb-item">
+    <a id="ember405" class="ember-view" href="/foo/bar">Quadrupeds</a>
+  </li>
+  <li class="breadcrumb-item">
+    <a id="ember406" class="ember-view" href="/foo/bar/baz">Cows</a>
+  </li>
+  <li class="breadcrumb-item">
+    <a id="ember407" class="ember-view active" href="/foo/bar/baz/show">Mary</a>
+  </li>
+</ul>
+```
 
 ## Installation
 
