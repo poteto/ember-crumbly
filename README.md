@@ -58,9 +58,13 @@ export default Ember.Route.extend({
   breadCrumb: {},
   afterModel(model) {
     const breadCrumb = get(this, 'breadCrumb');
-    const cowName = get(this, 'model.name'); // 'Mary'
+    const cowName = get(model, 'name'); // 'Mary'
+
+    const cow = {
+      title: cowName
+    }
     
-    breadCrumb.set('title', cowName);
+    set(this, 'breadCrumb", cow);
   }
 });
 ```
@@ -76,22 +80,23 @@ You can also pass in arbitrary properties to the `breadCrumb` POJO inside your r
 export default Ember.Route.extend({
   breadCrumb: {},
   afterModel(model) {
-    const breadCrumb = get(this, 'breadCrumb');
-    const cowName = get(this, 'model.name'); // 'Mary'
-    const cowAge = get(this, 'model.age');   // 5
-    const cowSay = get(this, 'model.say');   // 'Moo!'
-    
-    breadCrumb.setProperties({
+    const cowName = get(model, 'name'); // 'Mary'
+    const cowAge = get(model, 'age');   // 5
+    const cowSay = get(model, 'say');   // 'Moo!'
+
+    const cow = {
       name: cowName,
       age: cowAge,
       says: cowSay
-    });
+    }
+    
+    set(this, 'breadCrumb', cow);
   }
 });
 ```
 
 ```hbs
-{{#bread-crumbs outputStyle="bootstrap" linkable=true as |component cow|}}
+{{#bread-crumbs outputStyle='bootstrap" linkable=true as |component cow|}}
   {{cow.name}} ({{cow.age}}) says {{cow.says}}
 {{/bread-crumbs}}
 ```
