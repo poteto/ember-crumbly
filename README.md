@@ -1,6 +1,6 @@
 # ember-crumbly
 
-[![Build Status](https://travis-ci.org/poteto/ember-crumbly.svg)](https://travis-ci.org/poteto/ember-crumbly)
+[![npm version](https://badge.fury.io/js/ember-crumbly.svg)](http://badge.fury.io/js/ember-crumbly) [![Build Status](https://travis-ci.org/poteto/ember-crumbly.svg)](https://travis-ci.org/poteto/ember-crumbly)
 
 Adds a Component to your app that displays the current route hierarchy (commonly known as breadcrumb navigation). Thanks to [@rwjblue](https://github.com/rwjblue) for providing the excellent addon name.
 
