@@ -1,6 +1,6 @@
 # ember-crumbly
 
-Adds a Component to your app that displays the current route hierarchy (commonly known as breadcrumb navigation). Thanks to @rwjblue for providing the excellent addon name.
+Adds a Component to your app that displays the current route hierarchy (commonly known as breadcrumb navigation). Thanks to [@rwjblue](https://github.com/rwjblue) for providing the excellent addon name.
 
 This addon differentiates itself from other similar addons by providing a very declarative way to generate dynamic breadcrumbs.
 
@@ -68,7 +68,7 @@ export default Ember.Route.extend({
 Will generate the following breadcrumb: `Animals > Quadrupeds > Cows > Mary`.
 
 ### Advanced usage
-You can also pass in arbitrary properties to the breadCrumb POJO inside your route, and then pass in a custom template to the Component's block to render it the way you'd like:
+You can also pass in arbitrary properties to the `breadCrumb` POJO inside your route, and then pass in a custom template to the Component's block to render it the way you'd like:
 
 ```js
 // foo/bar/baz/show/route.js
