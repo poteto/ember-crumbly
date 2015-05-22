@@ -149,7 +149,7 @@ Will generate the following breadcrumb: `_Animals_ > Quadrupeds > _Cows_ > Cows 
 The Component essentially generates a parent element, and iterates through the available routes in the hierarchy as child elements. By default, the parent element is a list `<ol>`,  and the child element is a list item `<li>`. You can override this by passing in the appropriate `tagName` and `crumbName` to the Component:
 
 ```hbs
-{{bread-crumbs tagName="ul" outputStyle="foundation" linkable=true crumbTag="a" crumbClass="breadcrumb-item"}}
+{{bread-crumbs tagName="ul" outputStyle="foundation" linkable=true crumbClass="breadcrumb-item"}}
 ```
 
 Which generates the following HTML:
