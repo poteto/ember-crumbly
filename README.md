@@ -99,7 +99,11 @@ export default Ember.Route.extend({
 
 ```hbs
 {{#bread-crumbs outputStyle='bootstrap" linkable=true as |component cow|}}
-  {{cow.name}} ({{cow.age}}) says {{cow.says}}
+  {{#if cow.title}}
+    {{cow.title}}
+  {{else}}
+    {{cow.name}} ({{cow.age}}) says {{cow.says}}
+  {{/if}}
 {{/bread-crumbs}}
 ```
 
@@ -145,8 +149,8 @@ export default Ember.Route.extend({
 
 Will generate the following breadcrumb: `_Animals_ > Quadrupeds > _Cows_ > Cows with a drinking addiction`. (`_name_` representing a link).
 
-#### Set different HTML
-The Component essentially generates a parent element, and iterates through the available routes in the hierarchy as child elements. By default, the parent element is a list `<ol>`,  and the child element is a list item `<li>`. You can override this by passing in the appropriate `tagName` and `crumbName` to the Component:
+#### Set `li` classes
+You can set your own `li` classes by passing in the appropriate `crumbClass` to the Component:
 
 ```hbs
 {{bread-crumbs tagName="ul" outputStyle="foundation" linkable=true crumbClass="breadcrumb-item"}}
@@ -171,6 +175,15 @@ Which generates the following HTML:
   </li>
 </ul>
 ```
+
+#### Reversing the order of breadcrumb
+In certain scenarios, you might want to reverse the order of the breadcrumb (i.e. from RTL instead of LTR). To enable this, just set the `reverse` attr on the Component in your template:
+
+```hbs
+{{bread-crumbs linkable=true reverse=true}}
+```
+
+Will generate the following breadcrumb: `Mary < Cows < Quadrupeds < Animals`. Note that you have to style this yourself (the Component is not responsible for generating the separators).
 
 ## Installation
 
