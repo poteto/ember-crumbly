@@ -128,3 +128,29 @@ test('routes with no breadcrumb should render with their capitalized inferred na
     assert.ok(hasCookieText, 'renders the right inferred name');
   });
 });
+
+test('absence of reverse option renders breadcrumb right to left', function(assert) {
+  assert.expect(2);
+  visit('/foo/bar/baz');
+
+  andThen(() => {
+    const numberOfRenderedBreadCrumbs = find('#bootstrapLinkable li').length;
+    assert.equal(numberOfRenderedBreadCrumbs, 3, 'renders the correct number of breadcrumbs');
+    assert.deepEqual(
+      Ember.$('#bootstrapLinkable li').map((idx, item) => item.innerText.trim()).toArray(),
+      ['I am Foo Index', 'I am Bar', 'I am Baz']);
+  });
+});
+
+test('reverse option = TRUE renders breadcrumb from left to right', function(assert) {
+  assert.expect(2);
+  visit('/foo/bar/baz');
+
+  andThen(() => {
+    const numberOfRenderedBreadCrumbs = find('#reverseBootstrapLinkable li').length;
+    assert.equal(numberOfRenderedBreadCrumbs, 3, 'renders the correct number of breadcrumbs');
+    assert.deepEqual(
+      Ember.$('#reverseBootstrapLinkable li').map((idx, item) => item.innerText.trim()).toArray(),
+      ['I am Baz', 'I am Bar', 'I am Foo Index']);
+  });
+});

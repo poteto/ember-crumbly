@@ -31,11 +31,12 @@ export default Component.extend({
   layout,
   tagName: 'ol',
   linkable: true,
+  reverse: false,
   classNameBindings: [ 'breadCrumbClass' ],
   hasBlock: computed.bool('template').readOnly(),
   currentRouteName: computed.readOnly('applicationController.currentRouteName'),
 
-  routeHierarchy: computed('currentRouteName', {
+  routeHierarchy: computed('currentRouteName', 'reverse', {
     get() {
       const currentRouteName = getWithDefault(this, 'currentRouteName', false);
 
@@ -44,7 +45,8 @@ export default Component.extend({
       const routeNames = this._splitCurrentRouteName(currentRouteName);
       const filteredRouteNames = this._filterIndexRoutes(routeNames);
 
-      return this._lookupBreadCrumb(routeNames, filteredRouteNames);
+      const crumbs = this._lookupBreadCrumb(routeNames, filteredRouteNames);
+      return this.get('reverse') ? crumbs.reverse() : crumbs;
     },
 
     set() {
