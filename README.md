@@ -2,6 +2,8 @@
 
 [![npm version](https://badge.fury.io/js/ember-crumbly.svg)](http://badge.fury.io/js/ember-crumbly) [![Build Status](https://travis-ci.org/poteto/ember-crumbly.svg)](https://travis-ci.org/poteto/ember-crumbly)
 
+[Demo app](http://development.ember-crumbly-demo.divshot.io)
+
 Adds a Component to your app that displays the current route hierarchy (commonly known as breadcrumb navigation). Thanks to [@rwjblue](https://github.com/rwjblue) for providing the excellent addon name.
 
 This addon provides a very declarative way to generate dynamic breadcrumbs.
@@ -159,7 +161,7 @@ You can set your own `li` classes by passing in the appropriate `crumbClass` to 
 Which generates the following HTML:
 
 ```html
-<!-- /foo/bar/baz/show/1 -->
+<!-- /foo/bar/baz/show/1 -->``
 <ul class="breadcrumbs">
   <li class="breadcrumb-item">
     <a id="ember404" class="ember-view" href="/foo">Animals</a>
