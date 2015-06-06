@@ -178,6 +178,33 @@ Which generates the following HTML:
 </ul>
 ```
 
+#### Set `a` classes
+You can set your own `a` classes by passing in the appropriate `linkClass` to the Component:
+
+```hbs
+{{bread-crumbs tagName="ul" outputStyle="foundation" linkable=true linkClass="breadcrumb-link"}}
+```
+
+Which generates the following HTML:
+
+```html
+<!-- /foo/bar/baz/show/1 -->``
+<ul class="breadcrumbs">
+  <li>
+    <a id="ember404" class="ember-view breadcrumb-link" href="/foo">Animals</a>
+  </li>
+  <li>
+    <a id="ember405" class="ember-view breadcrumb-link" href="/foo/bar">Quadrupeds</a>
+  </li>
+  <li>
+    <a id="ember406" class="ember-view breadcrumb-link" href="/foo/bar/baz">Cows</a>
+  </li>
+  <li>
+    <a id="ember407" class="ember-view breadcrumb-link active" href="/foo/bar/baz/show">Mary</a>
+  </li>
+</ul>
+```
+
 #### Reversing the order of breadcrumb
 In certain scenarios, you might want to reverse the order of the breadcrumb (i.e. from RTL instead of LTR). To enable this, just set the `reverse` attr on the Component in your template:
 
