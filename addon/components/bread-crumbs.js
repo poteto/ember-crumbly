@@ -101,12 +101,16 @@ export default Component.extend({
   },
 
   _lookupBreadCrumb(routeNames, filteredRouteNames) {
-    const defaultLinkable = get(this, 'linkable');
+    let defaultLinkable = get(this, 'linkable');
+    const pathLength = routeNames.length;
     const breadCrumbs = map(filteredRouteNames, (name, index) => {
       const path = this._guessRoutePath(routeNames, name, index);
       let breadCrumb = this._lookupRoute(path).getWithDefault('breadCrumb', undefined);
       const breadCrumbType = typeOf(breadCrumb);
 
+      if (index === pathLength - 1) {
+        defaultLinkable = false;
+      }
       if (breadCrumbType === 'undefined') {
         breadCrumb = {
           path,

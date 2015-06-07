@@ -2,6 +2,8 @@
 
 [![npm version](https://badge.fury.io/js/ember-crumbly.svg)](http://badge.fury.io/js/ember-crumbly) [![Build Status](https://travis-ci.org/poteto/ember-crumbly.svg)](https://travis-ci.org/poteto/ember-crumbly)
 
+[Demo app](http://development.ember-crumbly-demo.divshot.io)
+
 Adds a Component to your app that displays the current route hierarchy (commonly known as breadcrumb navigation). Thanks to [@rwjblue](https://github.com/rwjblue) for providing the excellent addon name.
 
 This addon provides a very declarative way to generate dynamic breadcrumbs.
@@ -159,7 +161,7 @@ You can set your own `li` classes by passing in the appropriate `crumbClass` to 
 Which generates the following HTML:
 
 ```html
-<!-- /foo/bar/baz/show/1 -->
+<!-- /foo/bar/baz/show/1 -->``
 <ul class="breadcrumbs">
   <li class="breadcrumb-item">
     <a id="ember404" class="ember-view" href="/foo">Animals</a>
@@ -172,6 +174,33 @@ Which generates the following HTML:
   </li>
   <li class="breadcrumb-item">
     <a id="ember407" class="ember-view active" href="/foo/bar/baz/show">Mary</a>
+  </li>
+</ul>
+```
+
+#### Set `a` classes
+You can set your own `a` classes by passing in the appropriate `linkClass` to the Component:
+
+```hbs
+{{bread-crumbs tagName="ul" outputStyle="foundation" linkable=true linkClass="breadcrumb-link"}}
+```
+
+Which generates the following HTML:
+
+```html
+<!-- /foo/bar/baz/show/1 -->``
+<ul class="breadcrumbs">
+  <li>
+    <a id="ember404" class="ember-view breadcrumb-link" href="/foo">Animals</a>
+  </li>
+  <li>
+    <a id="ember405" class="ember-view breadcrumb-link" href="/foo/bar">Quadrupeds</a>
+  </li>
+  <li>
+    <a id="ember406" class="ember-view breadcrumb-link" href="/foo/bar/baz">Cows</a>
+  </li>
+  <li>
+    <a id="ember407" class="ember-view breadcrumb-link active" href="/foo/bar/baz/show">Mary</a>
   </li>
 </ul>
 ```

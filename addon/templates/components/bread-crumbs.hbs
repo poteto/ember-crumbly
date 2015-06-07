@@ -2,7 +2,7 @@
   <li class={{crumbClass}}>
     {{#if hasBlock}}
       {{#if route.linkable}}
-        {{#link-to route.path}}
+        {{#link-to route.path class=linkClass}}
           {{yield this route}}
         {{/link-to}}
       {{else}}
@@ -10,7 +10,7 @@
       {{/if}}
     {{else}}
       {{#if route.linkable}}
-        {{#link-to route.path}}
+        {{#link-to route.path class=linkClass}}
           {{route.title}}
         {{/link-to}}
       {{else}}
