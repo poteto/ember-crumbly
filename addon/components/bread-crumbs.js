@@ -108,7 +108,7 @@ export default Component.extend({
       let breadCrumb = this._lookupRoute(path).getWithDefault('breadCrumb', undefined);
       const breadCrumbType = typeOf(breadCrumb);
 
-      if(index === pathLength - 1) {
+      if (index === pathLength - 1) {
         defaultLinkable = false;
       }
       if (breadCrumbType === 'undefined') {
