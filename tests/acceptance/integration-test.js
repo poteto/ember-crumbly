@@ -154,3 +154,29 @@ test('reverse option = TRUE renders breadcrumb from left to right', function(ass
       ['I am Baz', 'I am Bar', 'I am Foo Index']);
   });
 });
+
+test('bread-crumbs component outputs crumbClass on li elements', function(assert) {
+  assert.expect(2);
+  visit('/foo/bar/baz');
+
+  andThen(() => {
+    const numberOfCustomCrumbClassItems = find('#customCrumbClass li').length;
+    const numberOfCustomCrumbClassItemsByClass = find('#customCrumbClass li.breadcrumb-item').length;
+
+    assert.equal(currentRouteName(), 'foo.bar.baz.index', 'correct current route name');
+    assert.equal(numberOfCustomCrumbClassItems, numberOfCustomCrumbClassItemsByClass, 'renders the correct number of breadcrumbs with custom crumb class');
+  });
+});
+
+test('bread-crumbs component outputs linkClass on a elements', function(assert) {
+  assert.expect(2);
+  visit('/foo/bar/baz');
+
+  andThen(() => {
+    const numberOfCustomLinkClassItems = find('#customLinkClass a').length;
+    const numberOfCustomLinkClassItemsByClass = find('#customLinkClass a.breadcrumb-link').length;
+
+    assert.equal(currentRouteName(), 'foo.bar.baz.index', 'correct current route name');
+    assert.equal(numberOfCustomLinkClassItems, numberOfCustomLinkClassItemsByClass, 'renders the correct number of breadcrumbs with custom link class');
+  });
+});
