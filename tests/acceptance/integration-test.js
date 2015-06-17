@@ -192,3 +192,20 @@ test('bread-crumbs change when the route is changed', function(assert) {
     assert.equal(lastCrumbText, 'I am Foo Index', 'renders the correct last breadcrumb (after transition)');
   });
 });
+
+test('bread-crumbs component updates when dynamic segments change', function(assert) {
+  assert.expect(4);
+  visit('/foo/bar/baz/1');
+
+  andThen(() => {
+    assert.equal(currentRouteName(), 'foo.bar.baz.show-with-params', 'correct current route name');
+    assert.equal(Ember.$('#bootstrapLinkable li:last-child a')[0].innerText.trim(), 'Derek Zoolander', 'crumb is based on dynamic segment');
+  });
+
+  click('#hansel');
+
+  andThen(() => {
+    assert.equal(currentRouteName(), 'foo.bar.baz.show-with-params', 'correct current route name');
+    assert.equal(Ember.$('#bootstrapLinkable li:last-child a')[0].innerText.trim(), 'Hansel McDonald', 'crumb is based on dynamic segment');
+  });
+});
