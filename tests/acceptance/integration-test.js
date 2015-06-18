@@ -175,3 +175,24 @@ test('bread-crumbs component outputs linkClass on a elements', function(assert) 
     assert.equal(numberOfCustomLinkClassItems, numberOfCustomLinkClassItemsByClass, 'renders the correct number of breadcrumbs with custom link class');
   });
 });
+
+test('bread-crumbs change when the route is changed', function(assert) {
+  assert.expect(4);
+  visit('/foo/bar/baz');
+
+  andThen(() => {
+    const lastCrumbText = find('#bootstrapLinkable li:last-child a').text().trim();
+
+    assert.equal(currentRouteName(), 'foo.bar.baz.index', 'correct current route name');
+    assert.equal(lastCrumbText, 'I am Baz', 'renders the correct last breadcrumb');
+  });
+
+  click('#bootstrapLinkable li:first-child a');
+
+  andThen(() => {
+    const lastCrumbText = find('#bootstrapLinkable li:last-child a').text().trim();
+
+    assert.equal(currentRouteName(), 'foo.index', 'correct current route name (after transition)');
+    assert.equal(lastCrumbText, 'I am Foo Index', 'renders the correct last breadcrumb (after transition)');
+  });
+});
