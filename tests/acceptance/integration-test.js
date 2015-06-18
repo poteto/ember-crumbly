@@ -11,11 +11,6 @@ const {
   run
 } = Ember;
 
-const {
-  map,
-  filter
-} = EnumerableUtils;
-
 let application;
 let componentInstance;
 
@@ -63,12 +58,12 @@ test('routes can set dynamic breadcrumb props', function(assert) {
 
   andThen(() => {
     const routeHierarchy = componentInstance.get('routeHierarchy');
-    const routeTitles = map(routeHierarchy, (route) => route.title);
-    const routeLooks = map(routeHierarchy, (route) => route.look);
-    const routeLinkables = map(routeHierarchy, (route) => route.linkable);
-    const hasDynamicTitle = filter(routeTitles, (title) => title === 'Derek Zoolander').length;
-    const hasDynamicLook = filter(routeLooks, (look) => look === 'Blue Steel').length;
-    const hasDynamicLinkable = filter(routeLinkables, (linkable) => linkable === false).length;
+    const routeTitles = routeHierarchy.map((route) => route.title);
+    const routeLooks = routeHierarchy.map((route) => route.look);
+    const routeLinkables = routeHierarchy.map((route) => route.linkable);
+    const hasDynamicTitle = routeTitles.filter((title) => title === 'Derek Zoolander').length;
+    const hasDynamicLook = routeLooks.filter((look) => look === 'Blue Steel').length;
+    const hasDynamicLinkable = routeLinkables.filter((linkable) => linkable === false).length;
     assert.equal(currentRouteName(), 'foo.bar.baz.show', 'correct current route name');
     assert.equal(routeHierarchy.length, 4, 'returns correct number of routes');
     assert.ok(hasDynamicTitle, 'returns the correct title prop');

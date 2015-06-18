@@ -4,7 +4,6 @@ import layout from '../templates/components/bread-crumbs';
 const get = Ember.get;
 const {
   A: emberArray,
-  EnumerableUtils,
   Component,
   Logger,
   computed,
@@ -17,11 +16,6 @@ const {
 const {
   classify
 } = Ember.String;
-
-const {
-  map,
-  filter
-} = EnumerableUtils;
 
 const {
   warn
@@ -87,7 +81,7 @@ export default Component.extend({
   },
 
   _filterIndexRoutes(routeNames) {
-    return filter(routeNames, (name) => {
+    return routeNames.filter((name) => {
       return name !== 'index';
     });
   },
@@ -102,7 +96,7 @@ export default Component.extend({
 
   _lookupBreadCrumb(routeNames, filteredRouteNames) {
     const defaultLinkable = get(this, 'linkable');
-    const breadCrumbs = map(filteredRouteNames, (name, index) => {
+    const breadCrumbs = filteredRouteNames.map((name, index) => {
       const path = this._guessRoutePath(routeNames, name, index);
       let breadCrumb = this._lookupRoute(path).getWithDefault('breadCrumb', undefined);
       const breadCrumbType = typeOf(breadCrumb);
@@ -125,7 +119,7 @@ export default Component.extend({
       return breadCrumb;
     });
 
-    return emberArray(filter(breadCrumbs, (breadCrumb) => {
+    return emberArray(breadCrumbs.filter((breadCrumb) => {
       return typeOf(breadCrumb) !== 'undefined';
     }));
   }
