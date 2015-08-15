@@ -11,6 +11,7 @@ Router.map(function() {
       this.route('baz', function() {
         this.route('hidden');
         this.route('show');
+        this.route('show-with-params', { path: '/:model_id' });
       });
     });
   });

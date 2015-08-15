@@ -20,9 +20,10 @@ export default Component.extend({
   reverse: false,
   classNameBindings: [ 'breadCrumbClass' ],
   hasBlock: computed.bool('template').readOnly(),
-  currentRouteName: computed.readOnly('applicationController.currentRouteName'),
+  currentUrl: computed.readOnly('applicationRoute.router.url'),
+  currentRouteName: computed.readOnly('applicationRoute.controller.currentRouteName'),
 
-  routeHierarchy: computed('currentRouteName', 'reverse', {
+  routeHierarchy: computed('currentUrl', 'reverse', {
     get() {
       const currentRouteName = getWithDefault(this, 'currentRouteName', false);
 
