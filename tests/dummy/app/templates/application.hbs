@@ -16,11 +16,13 @@
 
 <h2>Custom block</h2>
 {{#bread-crumbs id="customBlock" as |component route|}}
-  {{#if route.age}}
-    <span title={{route.description}}>{{route.name}} ({{route.age}} years old)</span>
-  {{else}}
-    <span title={{route.description}}>{{route.name}}</span>
-  {{/if}}
+  {{#bread-crumb route=route breadCrumbs=component}}
+    {{#if route.age}}
+      <span title={{route.description}}>{{route.name}} ({{route.age}} years old)</span>
+    {{else}}
+      <span title={{route.description}}>{{route.name}}</span>
+    {{/if}}
+  {{/bread-crumb}}
 {{/bread-crumbs}}
 <hr>
 

@@ -1,21 +1,7 @@
 {{#each routeHierarchy as |route|}}
-  <li class={{crumbClass}}>
-    {{#if hasBlock}}
-      {{#if route.linkable}}
-        {{#link-to route.path class=linkClass}}
-          {{yield this route}}
-        {{/link-to}}
-      {{else}}
-        {{yield this route}}
-      {{/if}}
-    {{else}}
-      {{#if route.linkable}}
-        {{#link-to route.path class=linkClass}}
-          {{route.title}}
-        {{/link-to}}
-      {{else}}
-        {{route.title}}
-      {{/if}}
-    {{/if}}
-  </li>
+  {{#if hasBlock}}
+    {{yield this route}}
+  {{else}}
+    {{bread-crumb route=route breadCrumbs=this}}
+  {{/if}}
 {{/each}}
