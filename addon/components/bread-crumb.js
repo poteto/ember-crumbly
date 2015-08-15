@@ -9,7 +9,7 @@ const {
 export default Component.extend({
   layout,
   tagName: 'li',
-  classNameBindings: ['crumbClass'],
+  classNameBindings: [ 'crumbClass' ],
 
   crumbClass: computed.oneWay('breadCrumbs.crumbClass'),
   linkClass: computed.oneWay('breadCrumbs.linkClass'),

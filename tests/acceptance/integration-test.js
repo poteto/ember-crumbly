@@ -2,14 +2,10 @@ import Ember from 'ember';
 import { module, test } from 'qunit';
 import startApp from '../helpers/start-app';
 import {
-  lookupComponent,
-  lookupRoute
+  lookupComponent
 } from '../helpers/lookup';
 
-const {
-  EnumerableUtils,
-  run
-} = Ember;
+const { run } = Ember;
 
 let application;
 let componentInstance;
