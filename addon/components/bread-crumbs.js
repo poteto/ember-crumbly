@@ -1,31 +1,17 @@
 import Ember from 'ember';
 import layout from '../templates/components/bread-crumbs';
 
-const get = Ember.get;
 const {
-  A: emberArray,
-  EnumerableUtils,
+  get,
   Component,
-  Logger,
   computed,
   getWithDefault,
   assert,
   typeOf,
-  setProperties
+  setProperties,
+  A: emberArray,
+  String: { classify }
 } = Ember;
-
-const {
-  classify
-} = Ember.String;
-
-const {
-  map,
-  filter
-} = EnumerableUtils;
-
-const {
-  warn
-} = Logger;
 
 export default Component.extend({
   layout,
@@ -34,9 +20,10 @@ export default Component.extend({
   reverse: false,
   classNameBindings: [ 'breadCrumbClass' ],
   hasBlock: computed.bool('template').readOnly(),
-  currentRouteName: computed.readOnly('applicationController.currentRouteName'),
+  currentUrl: computed.readOnly('applicationRoute.router.url'),
+  currentRouteName: computed.readOnly('applicationRoute.controller.currentRouteName'),
 
-  routeHierarchy: computed('currentRouteName', 'reverse', {
+  routeHierarchy: computed('currentUrl', 'reverse', {
     get() {
       const currentRouteName = getWithDefault(this, 'currentRouteName', false);
 
@@ -47,12 +34,8 @@ export default Component.extend({
 
       const crumbs = this._lookupBreadCrumb(routeNames, filteredRouteNames);
       return this.get('reverse') ? crumbs.reverse() : crumbs;
-    },
-
-    set() {
-      warn('[ember-crumbly] `routeHierarchy` is read only');
     }
-  }),
+  }).readOnly(),
 
   breadCrumbClass: computed('outputStyle', {
     get() {
@@ -65,12 +48,8 @@ export default Component.extend({
       }
 
       return className;
-    },
-
-    set() {
-      warn('[ember-crumbly] `breadCrumbClass` is read only');
     }
-  }),
+  }).readOnly(),
 
   _splitCurrentRouteName(currentRouteName) {
     return currentRouteName.split('.');
@@ -87,9 +66,7 @@ export default Component.extend({
   },
 
   _filterIndexRoutes(routeNames) {
-    return filter(routeNames, (name) => {
-      return name !== 'index';
-    });
+    return routeNames.filter((name) => name !== 'index');
   },
 
   _lookupRoute(routeName) {
@@ -102,7 +79,7 @@ export default Component.extend({
 
   _lookupBreadCrumb(routeNames, filteredRouteNames) {
     const defaultLinkable = get(this, 'linkable');
-    const breadCrumbs = map(filteredRouteNames, (name, index) => {
+    const breadCrumbs = filteredRouteNames.map((name, index) => {
       const path = this._guessRoutePath(routeNames, name, index);
       let breadCrumb = this._lookupRoute(path).getWithDefault('breadCrumb', undefined);
       const breadCrumbType = typeOf(breadCrumb);
@@ -125,8 +102,6 @@ export default Component.extend({
       return breadCrumb;
     });
 
-    return emberArray(filter(breadCrumbs, (breadCrumb) => {
-      return typeOf(breadCrumb) !== 'undefined';
-    }));
+    return emberArray(breadCrumbs.filter((breadCrumb) => typeOf(breadCrumb) !== 'undefined'));
   }
 });

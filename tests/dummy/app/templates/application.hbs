@@ -16,14 +16,25 @@
 
 <h2>Custom block</h2>
 {{#bread-crumbs id="customBlock" as |component route|}}
-  {{#if route.age}}
-    <span title={{route.description}}>{{route.name}} ({{route.age}} years old)</span>
-  {{else}}
-    <span title={{route.description}}>{{route.name}}</span>
-  {{/if}}
+  {{#bread-crumb route=route breadCrumbs=component}}
+    {{#if route.age}}
+      <span title={{route.description}}>{{route.name}} ({{route.age}} years old)</span>
+    {{else}}
+      <span title={{route.description}}>{{route.name}}</span>
+    {{/if}}
+  {{/bread-crumb}}
 {{/bread-crumbs}}
+<hr>
 
 <h2>Reverse (bootstrap linkable)</h2>
 {{bread-crumbs id="reverseBootstrapLinkable" reverse=true}}
+<hr>
+
+<h2>Custom <code>crumbClass</code></h2>
+{{bread-crumbs id="customCrumbClass" crumbClass="breadcrumb-item"}}
+<hr>
+
+<h2>Custom <code>linkClass</code></h2>
+{{bread-crumbs id="customLinkClass" linkClass="breadcrumb-link"}}
 
 {{outlet}}

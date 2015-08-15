@@ -1,5 +1,5 @@
 export function initialize(container, application) {
-  application.inject('component:bread-crumbs', 'applicationController', 'controller:application');
+  application.inject('component:bread-crumbs', 'applicationRoute', 'route:application');
 }
 
 export default {

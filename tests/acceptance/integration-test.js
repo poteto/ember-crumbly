@@ -2,19 +2,10 @@ import Ember from 'ember';
 import { module, test } from 'qunit';
 import startApp from '../helpers/start-app';
 import {
-  lookupComponent,
-  lookupRoute
+  lookupComponent
 } from '../helpers/lookup';
 
-const {
-  EnumerableUtils,
-  run
-} = Ember;
-
-const {
-  map,
-  filter
-} = EnumerableUtils;
+const { run } = Ember;
 
 let application;
 let componentInstance;
@@ -63,12 +54,12 @@ test('routes can set dynamic breadcrumb props', function(assert) {
 
   andThen(() => {
     const routeHierarchy = componentInstance.get('routeHierarchy');
-    const routeTitles = map(routeHierarchy, (route) => route.title);
-    const routeLooks = map(routeHierarchy, (route) => route.look);
-    const routeLinkables = map(routeHierarchy, (route) => route.linkable);
-    const hasDynamicTitle = filter(routeTitles, (title) => title === 'Derek Zoolander').length;
-    const hasDynamicLook = filter(routeLooks, (look) => look === 'Blue Steel').length;
-    const hasDynamicLinkable = filter(routeLinkables, (linkable) => linkable === false).length;
+    const routeTitles = routeHierarchy.map((route) => route.title);
+    const routeLooks = routeHierarchy.map((route) => route.look);
+    const routeLinkables = routeHierarchy.map((route) => route.linkable);
+    const hasDynamicTitle = routeTitles.filter((title) => title === 'Derek Zoolander').length;
+    const hasDynamicLook = routeLooks.filter((look) => look === 'Blue Steel').length;
+    const hasDynamicLinkable = routeLinkables.filter((linkable) => linkable === false).length;
     assert.equal(currentRouteName(), 'foo.bar.baz.show', 'correct current route name');
     assert.equal(routeHierarchy.length, 4, 'returns correct number of routes');
     assert.ok(hasDynamicTitle, 'returns the correct title prop');
@@ -152,5 +143,69 @@ test('reverse option = TRUE renders breadcrumb from left to right', function(ass
     assert.deepEqual(
       Ember.$('#reverseBootstrapLinkable li').map((idx, item) => item.innerText.trim()).toArray(),
       ['I am Baz', 'I am Bar', 'I am Foo Index']);
+  });
+});
+
+test('bread-crumbs component outputs crumbClass on li elements', function(assert) {
+  assert.expect(2);
+  visit('/foo/bar/baz');
+
+  andThen(() => {
+    const numberOfCustomCrumbClassItems = find('#customCrumbClass li').length;
+    const numberOfCustomCrumbClassItemsByClass = find('#customCrumbClass li.breadcrumb-item').length;
+
+    assert.equal(currentRouteName(), 'foo.bar.baz.index', 'correct current route name');
+    assert.equal(numberOfCustomCrumbClassItems, numberOfCustomCrumbClassItemsByClass, 'renders the correct number of breadcrumbs with custom crumb class');
+  });
+});
+
+test('bread-crumbs component outputs linkClass on a elements', function(assert) {
+  assert.expect(2);
+  visit('/foo/bar/baz');
+
+  andThen(() => {
+    const numberOfCustomLinkClassItems = find('#customLinkClass a').length;
+    const numberOfCustomLinkClassItemsByClass = find('#customLinkClass a.breadcrumb-link').length;
+
+    assert.equal(currentRouteName(), 'foo.bar.baz.index', 'correct current route name');
+    assert.equal(numberOfCustomLinkClassItems, numberOfCustomLinkClassItemsByClass, 'renders the correct number of breadcrumbs with custom link class');
+  });
+});
+
+test('bread-crumbs change when the route is changed', function(assert) {
+  assert.expect(4);
+  visit('/foo/bar/baz');
+
+  andThen(() => {
+    const lastCrumbText = find('#bootstrapLinkable li:last-child a').text().trim();
+
+    assert.equal(currentRouteName(), 'foo.bar.baz.index', 'correct current route name');
+    assert.equal(lastCrumbText, 'I am Baz', 'renders the correct last breadcrumb');
+  });
+
+  click('#bootstrapLinkable li:first-child a');
+
+  andThen(() => {
+    const lastCrumbText = find('#bootstrapLinkable li:last-child a').text().trim();
+
+    assert.equal(currentRouteName(), 'foo.index', 'correct current route name (after transition)');
+    assert.equal(lastCrumbText, 'I am Foo Index', 'renders the correct last breadcrumb (after transition)');
+  });
+});
+
+test('bread-crumbs component updates when dynamic segments change', function(assert) {
+  assert.expect(4);
+  visit('/foo/bar/baz/1');
+
+  andThen(() => {
+    assert.equal(currentRouteName(), 'foo.bar.baz.show-with-params', 'correct current route name');
+    assert.equal(Ember.$('#bootstrapLinkable li:last-child a')[0].innerText.trim(), 'Derek Zoolander', 'crumb is based on dynamic segment');
+  });
+
+  click('#hansel');
+
+  andThen(() => {
+    assert.equal(currentRouteName(), 'foo.bar.baz.show-with-params', 'correct current route name');
+    assert.equal(Ember.$('#bootstrapLinkable li:last-child a')[0].innerText.trim(), 'Hansel McDonald', 'crumb is based on dynamic segment');
   });
 });

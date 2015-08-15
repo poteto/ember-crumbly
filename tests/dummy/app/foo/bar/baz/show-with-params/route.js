@@ -9,23 +9,22 @@ const {
 export default Route.extend({
   breadCrumb: {},
 
-  model() {
-    return {
-      name: 'Derek Zoolander',
-      age: 21,
-      look: 'Blue Steel'
-    };
+  model(params) {
+    let models = [
+      { name: 'Derek Zoolander' },
+      { name: 'Hansel McDonald' }
+    ];
+
+    // jscs:disable requireCamelCaseOrUpperCaseIdentifiers
+    return models[(params.model_id - 1)];
+    // jscs:enable
   },
 
   afterModel(model) {
     const name = get(model, 'name');
-    const age = get(model, 'age');
-    const look = get(model, 'look');
 
     const fashionModel = {
-      title: name,
-      age,
-      look
+      title: name
     };
 
     set(this, 'breadCrumb', fashionModel);
