@@ -1,9 +1,9 @@
 import Ember from 'ember';
 
-const get = Ember.get;
-const set = Ember.set;
 const {
-  Route
+  Route,
+  get,
+  set
 } = Ember;
 
 export default Route.extend({

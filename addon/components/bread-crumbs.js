@@ -1,25 +1,17 @@
 import Ember from 'ember';
 import layout from '../templates/components/bread-crumbs';
 
-const get = Ember.get;
 const {
-  A: emberArray,
+  get,
   Component,
-  Logger,
   computed,
   getWithDefault,
   assert,
   typeOf,
-  setProperties
+  setProperties,
+  A: emberArray,
+  String: { classify }
 } = Ember;
-
-const {
-  classify
-} = Ember.String;
-
-const {
-  warn
-} = Logger;
 
 export default Component.extend({
   layout,
@@ -41,12 +33,8 @@ export default Component.extend({
 
       const crumbs = this._lookupBreadCrumb(routeNames, filteredRouteNames);
       return this.get('reverse') ? crumbs.reverse() : crumbs;
-    },
-
-    set() {
-      warn('[ember-crumbly] `routeHierarchy` is read only');
     }
-  }),
+  }).readOnly(),
 
   breadCrumbClass: computed('outputStyle', {
     get() {
@@ -59,12 +47,8 @@ export default Component.extend({
       }
 
       return className;
-    },
-
-    set() {
-      warn('[ember-crumbly] `breadCrumbClass` is read only');
     }
-  }),
+  }).readOnly(),
 
   _splitCurrentRouteName(currentRouteName) {
     return currentRouteName.split('.');
@@ -81,9 +65,7 @@ export default Component.extend({
   },
 
   _filterIndexRoutes(routeNames) {
-    return routeNames.filter((name) => {
-      return name !== 'index';
-    });
+    return routeNames.filter((name) => name !== 'index');
   },
 
   _lookupRoute(routeName) {
@@ -119,8 +101,6 @@ export default Component.extend({
       return breadCrumb;
     });
 
-    return emberArray(breadCrumbs.filter((breadCrumb) => {
-      return typeOf(breadCrumb) !== 'undefined';
-    }));
+    return emberArray(breadCrumbs.filter((breadCrumb) => typeOf(breadCrumb) !== 'undefined'));
   }
 });
