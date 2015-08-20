@@ -108,15 +108,23 @@ test('bread-crumbs component accepts a block', function(assert) {
 });
 
 test('routes with no breadcrumb should render with their capitalized inferred name', function(assert) {
-  assert.expect(2);
+  assert.expect(4);
   visit('/dessert/cookie');
 
   andThen(() => {
-    const listItemsText = find('ol#bootstrapLinkable li a').text();
-    const hasDessertText = listItemsText.indexOf('Dessert') >= 0;
-    const hasCookieText = listItemsText.indexOf('Cookie') >= 0;
-    assert.ok(hasDessertText, 'renders the right inferred name');
-    assert.ok(hasCookieText, 'renders the right inferred name');
+    const allListItems = find('ol#bootstrapLinkable li').text();
+    const allLinkItems = find('ol#bootstrapLinkable li a').text();
+
+    const hasDessertInallList = allListItems.indexOf('Dessert') >= 0;
+    const hasCookieTextInallList = allListItems.indexOf('Cookie') >= 0;
+
+    const hasDessertInLinkList = allLinkItems.indexOf('Dessert') >= 0;
+    const doesNotHaveCookieInLinkList = allLinkItems.indexOf('Cookie') === -1;
+
+    assert.ok(hasDessertInallList, 'renders the right inferred name');
+    assert.ok(hasCookieTextInallList, 'renders the right inferred name');
+    assert.ok(hasDessertInLinkList, 'renders the right inferred name');
+    assert.ok(doesNotHaveCookieInLinkList, 'renders the right inferred name');
   });
 });
 
@@ -199,13 +207,13 @@ test('bread-crumbs component updates when dynamic segments change', function(ass
 
   andThen(() => {
     assert.equal(currentRouteName(), 'foo.bar.baz.show-with-params', 'correct current route name');
-    assert.equal(Ember.$('#bootstrapLinkable li:last-child a')[0].innerText.trim(), 'Derek Zoolander', 'crumb is based on dynamic segment');
+    assert.equal(Ember.$('#bootstrapLinkable li:last-child')[0].innerText.trim(), 'Derek Zoolander', 'crumb is based on dynamic segment');
   });
 
   click('#hansel');
 
   andThen(() => {
     assert.equal(currentRouteName(), 'foo.bar.baz.show-with-params', 'correct current route name');
-    assert.equal(Ember.$('#bootstrapLinkable li:last-child a')[0].innerText.trim(), 'Hansel McDonald', 'crumb is based on dynamic segment');
+    assert.equal(Ember.$('#bootstrapLinkable li:last-child')[0].innerText.trim(), 'Hansel McDonald', 'crumb is based on dynamic segment');
   });
 });
