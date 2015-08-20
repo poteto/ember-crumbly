@@ -207,13 +207,13 @@ test('bread-crumbs component updates when dynamic segments change', function(ass
 
   andThen(() => {
     assert.equal(currentRouteName(), 'foo.bar.baz.show-with-params', 'correct current route name');
-    assert.equal(Ember.$('#bootstrapLinkable li:last-child a')[0].innerText.trim(), 'Derek Zoolander', 'crumb is based on dynamic segment');
+    assert.equal(Ember.$('#bootstrapLinkable li:last-child')[0].innerText.trim(), 'Derek Zoolander', 'crumb is based on dynamic segment');
   });
 
   click('#hansel');
 
   andThen(() => {
     assert.equal(currentRouteName(), 'foo.bar.baz.show-with-params', 'correct current route name');
-    assert.equal(Ember.$('#bootstrapLinkable li:last-child a')[0].innerText.trim(), 'Hansel McDonald', 'crumb is based on dynamic segment');
+    assert.equal(Ember.$('#bootstrapLinkable li:last-child')[0].innerText.trim(), 'Hansel McDonald', 'crumb is based on dynamic segment');
   });
 });
