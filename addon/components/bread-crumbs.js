@@ -23,7 +23,7 @@ export default Component.extend({
   currentUrl: computed.readOnly('applicationRoute.router.url'),
   currentRouteName: computed.readOnly('applicationRoute.controller.currentRouteName'),
 
-  routeHierarchy: computed('currentUrl', 'reverse', {
+  routeHierarchy: computed('currentUrl', 'currentRouteName', 'reverse', {
     get() {
       const currentRouteName = getWithDefault(this, 'currentRouteName', false);
 
