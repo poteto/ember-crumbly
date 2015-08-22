@@ -10,7 +10,9 @@ const {
   typeOf,
   setProperties,
   A: emberArray,
-  String: { classify }
+  String: { classify },
+  merge,
+  copy
 } = Ember;
 
 export default Component.extend({
@@ -79,15 +81,16 @@ export default Component.extend({
 
   _lookupBreadCrumb(routeNames, filteredRouteNames) {
     let defaultLinkable = get(this, 'linkable');
-    const pathLength = routeNames.length;
+    const pathLength = filteredRouteNames.length;
     const breadCrumbs = filteredRouteNames.map((name, index) => {
       const path = this._guessRoutePath(routeNames, name, index);
       let breadCrumb = this._lookupRoute(path).getWithDefault('breadCrumb', undefined);
       const breadCrumbType = typeOf(breadCrumb);
 
-      if (index === pathLength - 1) {
+      if (index === (pathLength - 1)) {
         defaultLinkable = false;
       }
+
       if (breadCrumbType === 'undefined') {
         breadCrumb = {
           path,
@@ -97,7 +100,8 @@ export default Component.extend({
       } else if (breadCrumbType === 'null') {
         return;
       } else {
-        setProperties(breadCrumb, {
+        breadCrumb = merge(copy(breadCrumb), {
+          title: breadCrumb.hasOwnProperty('title') ? breadCrumb.title : classify(name),
           path,
           linkable: breadCrumb.hasOwnProperty('linkable') ? breadCrumb.linkable : defaultLinkable
         });
