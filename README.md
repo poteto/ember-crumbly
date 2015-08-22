@@ -101,11 +101,13 @@ export default Ember.Route.extend({
 
 ```hbs
 {{#bread-crumbs outputStyle='bootstrap" linkable=true as |component cow|}}
-  {{#if cow.title}}
-    {{cow.title}}
-  {{else}}
-    {{cow.name}} ({{cow.age}}) says {{cow.says}}
-  {{/if}}
+  {{bread-crumb route=cow breadCrumbs=component}}
+    {{#if cow.title}}
+      {{cow.title}}
+    {{else}}
+      {{cow.name}} ({{cow.age}}) says {{cow.says}}
+    {{/if}}
+  {{/bread-crumb}}
 {{/bread-crumbs}}
 ```
 
