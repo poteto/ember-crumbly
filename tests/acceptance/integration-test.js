@@ -77,7 +77,7 @@ test('routes that are not linkable do not generate an <a> tag', function(assert)
     const listAnchorElementsLength = find('#bootstrapLinkable li a').length;
     assert.equal(currentRouteName(), 'foo.bar.baz.index', 'correct current route name');
     assert.equal(listElementsLength, 3, 'returns the correct number of list elements');
-    assert.equal(listAnchorElementsLength, 2, 'returns the correct number of list anchor elements');
+    assert.equal(listAnchorElementsLength, 1, 'returns the correct number of list anchor elements');
   });
 });
 
