@@ -1,6 +1,6 @@
 # ember-crumbly
 
-[![npm version](https://badge.fury.io/js/ember-crumbly.svg)](http://badge.fury.io/js/ember-crumbly) [![Build Status](https://travis-ci.org/abhilashlr/ember-crumbly.svg)](https://travis-ci.org/abhilashlr/ember-crumbly)
+[![npm version](https://badge.fury.io/js/ember-crumbly.svg)](http://badge.fury.io/js/ember-crumbly) [![Build Status](https://travis-ci.org/poteto/ember-crumbly.svg)](https://travis-ci.org/poteto/ember-crumbly)
 
 [Demo app](http://development.ember-crumbly-demo.divshot.io)
 
