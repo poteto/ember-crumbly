@@ -8,7 +8,6 @@ const {
   getWithDefault,
   assert,
   typeOf,
-  setProperties,
   A: emberArray,
   String: { classify },
   merge,
