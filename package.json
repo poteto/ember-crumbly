@@ -1,6 +1,6 @@
 {
   "name": "ember-crumbly",
-  "version": "0.2.2",
+  "version": "1.0.0",
   "description": "Declarative breadcrumb navigation for Ember apps",
   "directories": {
     "doc": "doc",
@@ -30,9 +30,10 @@
     "ember-cli-release": "0.2.3",
     "ember-cli-sri": "^1.0.3",
     "ember-cli-uglify": "^1.2.0",
+    "ember-disable-prototype-extensions": "^1.0.0",
     "ember-disable-proxy-controllers": "^1.0.0",
     "ember-export-application-global": "^1.0.3",
-    "ember-disable-prototype-extensions": "^1.0.0",
+    "ember-new-computed": "^1.0.3",
     "ember-suave": "1.0.0",
     "ember-try": "0.0.6"
   },

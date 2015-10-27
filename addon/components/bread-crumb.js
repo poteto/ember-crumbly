@@ -1,17 +1,21 @@
 import Ember from 'ember';
 import layout from '../templates/components/bread-crumb';
+import computed from 'ember-new-computed';
 
 const {
-  Component,
-  computed
+  Component
 } = Ember;
+const {
+  oneWay,
+  bool
+} = computed;
 
 export default Component.extend({
   layout,
   tagName: 'li',
-  classNameBindings: [ 'crumbClass' ],
+  classNameBindings: ['crumbClass'],
 
-  crumbClass: computed.oneWay('breadCrumbs.crumbClass'),
-  linkClass: computed.oneWay('breadCrumbs.linkClass'),
-  hasBlock: computed.bool('template').readOnly()
+  crumbClass: oneWay('breadCrumbs.crumbClass'),
+  linkClass: oneWay('breadCrumbs.linkClass'),
+  hasBlock: bool('template').readOnly()
 });
