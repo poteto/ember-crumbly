@@ -1,10 +1,10 @@
 import Ember from 'ember';
 import layout from '../templates/components/bread-crumbs';
+import computed from 'ember-new-computed';
 
 const {
   get,
   Component,
-  computed,
   getWithDefault,
   assert,
   typeOf,
@@ -12,16 +12,20 @@ const {
   A: emberArray,
   String: { classify }
 } = Ember;
+const {
+  bool,
+  readOnly
+} = computed;
 
 export default Component.extend({
   layout,
   tagName: 'ol',
   linkable: true,
   reverse: false,
-  classNameBindings: [ 'breadCrumbClass' ],
-  hasBlock: computed.bool('template').readOnly(),
-  currentUrl: computed.readOnly('applicationRoute.router.url'),
-  currentRouteName: computed.readOnly('applicationRoute.controller.currentRouteName'),
+  classNameBindings: ['breadCrumbClass'],
+  hasBlock: bool('template').readOnly(),
+  currentUrl: readOnly('applicationRoute.router.url'),
+  currentRouteName: readOnly('applicationRoute.controller.currentRouteName'),
 
   routeHierarchy: computed('currentUrl', 'currentRouteName', 'reverse', {
     get() {
@@ -60,9 +64,9 @@ export default Component.extend({
 
     if (routes.length === 1) {
       return `${name}.index`;
-    } else {
-      return routes.join('.');
     }
+
+    return routes.join('.');
   },
 
   _filterIndexRoutes(routeNames) {
