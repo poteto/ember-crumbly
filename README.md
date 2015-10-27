@@ -12,6 +12,9 @@ This addon provides a very declarative way to generate dynamic breadcrumbs.
 $ ember install ember-crumbly
 ```
 
+## Compatibility
+This addon is tested against the `release`, `beta` and `canary` channels, `~1.11.x`, and `1.12.x`.
+
 ## Usage
 
 ### Basic usage 
