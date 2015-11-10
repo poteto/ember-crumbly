@@ -63,14 +63,20 @@ export default Component.extend({
     const routes = routeNames.slice(0, index + 1);
 
     if (routes.length === 1) {
-      return `${name}.index`;
+      return `${name}`;
+    } else {
+      return routes.join('.');
     }
-
-    return routes.join('.');
   },
 
   _filterIndexRoutes(routeNames) {
-    return routeNames.filter((name) => name !== 'index');
+    return routeNames.filter((name, routeNames) => {
+      if (routeNames.length === 1) {
+        return true;
+      } else {
+        return name !== 'index';
+      }
+    });
   },
 
   _lookupRoute(routeName) {
