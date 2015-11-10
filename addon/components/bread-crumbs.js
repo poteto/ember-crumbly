@@ -1,21 +1,25 @@
 import Ember from 'ember';
 import layout from '../templates/components/bread-crumbs';
-import computed from 'ember-new-computed';
 
+const get = Ember.get;
 const {
-  get,
+  A: emberArray,
   Component,
+  Logger,
+  computed,
   getWithDefault,
   assert,
   typeOf,
-  setProperties,
-  A: emberArray,
-  String: { classify }
-} = Ember;
+  setProperties
+  } = Ember;
+
 const {
-  bool,
-  readOnly
-} = computed;
+  classify
+  } = Ember.String;
+
+const {
+  warn
+  } = Logger;
 
 export default Component.extend({
   layout,
@@ -23,11 +27,10 @@ export default Component.extend({
   linkable: true,
   reverse: false,
   classNameBindings: ['breadCrumbClass'],
-  hasBlock: bool('template').readOnly(),
-  currentUrl: readOnly('applicationRoute.router.url'),
-  currentRouteName: readOnly('applicationRoute.controller.currentRouteName'),
+  hasBlock: computed.bool('template').readOnly(),
+  currentRouteName: computed.readOnly('applicationController.currentRouteName'),
 
-  routeHierarchy: computed('currentUrl', 'currentRouteName', 'reverse', {
+  routeHierarchy: computed('currentRouteName', 'reverse', {
     get() {
       const currentRouteName = getWithDefault(this, 'currentRouteName', false);
 
@@ -38,8 +41,12 @@ export default Component.extend({
 
       const crumbs = this._lookupBreadCrumb(routeNames, filteredRouteNames);
       return this.get('reverse') ? crumbs.reverse() : crumbs;
+    },
+
+    set() {
+      warn('[ember-crumbly] `routeHierarchy` is read only');
     }
-  }).readOnly(),
+  }),
 
   breadCrumbClass: computed('outputStyle', {
     get() {
@@ -52,8 +59,12 @@ export default Component.extend({
       }
 
       return className;
+    },
+
+    set() {
+      warn('[ember-crumbly] `breadCrumbClass` is read only');
     }
-  }).readOnly(),
+  }),
 
   _splitCurrentRouteName(currentRouteName) {
     return currentRouteName.split('.');
@@ -88,16 +99,12 @@ export default Component.extend({
   },
 
   _lookupBreadCrumb(routeNames, filteredRouteNames) {
-    let defaultLinkable = get(this, 'linkable');
-    const pathLength = routeNames.length;
+    const defaultLinkable = get(this, 'linkable');
     const breadCrumbs = filteredRouteNames.map((name, index) => {
       const path = this._guessRoutePath(routeNames, name, index);
       let breadCrumb = this._lookupRoute(path).getWithDefault('breadCrumb', undefined);
       const breadCrumbType = typeOf(breadCrumb);
 
-      if (index === pathLength - 1) {
-        defaultLinkable = false;
-      }
       if (breadCrumbType === 'undefined') {
         breadCrumb = {
           path,
@@ -116,6 +123,8 @@ export default Component.extend({
       return breadCrumb;
     });
 
-    return emberArray(breadCrumbs.filter((breadCrumb) => typeOf(breadCrumb) !== 'undefined'));
+    return emberArray(breadCrumbs.filter((breadCrumb) => {
+      return typeOf(breadCrumb) !== 'undefined';
+    }));
   }
 });
