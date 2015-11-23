@@ -77,14 +77,15 @@ test('routes can set dynamic breadcrumb props', function(assert) {
 });
 
 test('breadcrumb data includes isTail and isHead', function(assert) {
-  assert.expect(3);
+  assert.expect(4);
   visit('/foo/bar/baz/show');
 
   andThen(() => {
     const routeHierarchy = componentInstance.get('routeHierarchy');
 
     assert.equal(routeHierarchy[0].isHead, true, 'first route is head');
-    assert.equal(routeHierarchy[1].isHead, false, 'last route is not head');
+    assert.equal(routeHierarchy[1].isHead, false, 'second route is not head');
+    assert.equal(routeHierarchy[0].isTail, false, 'first route is not tail');
     assert.equal(routeHierarchy[routeHierarchy.length - 1].isTail, true, 'last route is tail');
   });
 });
