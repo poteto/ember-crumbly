@@ -90,6 +90,19 @@ test('breadcrumb data includes isTail and isHead', function(assert) {
   });
 });
 
+test('first route is tail and head when on root', function(assert) {
+  assert.expect(3);
+  visit('/foo');
+
+  andThen(() => {
+    const routeHierarchy = componentInstance.get('routeHierarchy');
+
+    assert.equal(routeHierarchy.length, 1, 'There is 1 route');
+    assert.equal(routeHierarchy[0].isHead, true, 'first route is head');
+    assert.equal(routeHierarchy[0].isTail, true, 'first route is tail');
+  });
+});
+
 test('routes that are not linkable do not generate an <a> tag', function(assert) {
   assert.expect(3);
   visit('/foo/bar/baz/');

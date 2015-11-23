@@ -80,7 +80,6 @@ export default Component.extend({
     let defaultLinkable = get(this, 'linkable');
     const pathLength = routeNames.length;
     const breadCrumbs = filteredRouteNames.map((name, index) => {
-      let isTail = false;
       const path = this._guessRoutePath(routeNames, name, index);
       const route = this._lookupRoute(path);
 
@@ -90,9 +89,9 @@ export default Component.extend({
       const breadCrumbType = typeOf(breadCrumb);
 
       let isHead = index === 0;
+      let isTail = index === filteredRouteNames.length - 1;
 
       if (index === pathLength - 1) {
-        isTail = true;
         defaultLinkable = false;
       }
       if (breadCrumbType === 'undefined') {
