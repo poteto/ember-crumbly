@@ -48,6 +48,21 @@ test('routes that opt-out are not shown', function(assert) {
   });
 });
 
+test('top-level flat routes render correctly', function(assert) {
+  assert.expect(4);
+  visit('/about');
+
+  andThen(() => {
+    const $breadCrumbs = find('#foundationLinkable li');
+    const routeHierarchy = componentInstance.get('routeHierarchy');
+    const numberOfRenderBreadCrumbs = $breadCrumbs.length;
+    assert.equal(currentRouteName(), 'about', 'correct current route name');
+    assert.equal(routeHierarchy.length, 1, 'returns correct number of routes');
+    assert.equal(numberOfRenderBreadCrumbs, 1, 'renders the correct number of breadcrumbs');
+    assert.equal($breadCrumbs.first().text().trim(), 'About Derek Zoolander', 'uses flat route breadcrumb settings');
+  });
+});
+
 test('routes can set dynamic breadcrumb props', function(assert) {
   assert.expect(5);
   visit('/foo/bar/baz/show');
