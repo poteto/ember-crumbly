@@ -63,7 +63,9 @@ export default Component.extend({
     const routes = routeNames.slice(0, index + 1);
 
     if (routes.length === 1) {
-      return `${name}.index`;
+      let path = `${name}.index`;
+
+      return (this._lookupRoute(path)) ? path : name;
     }
 
     return routes.join('.');
@@ -76,7 +78,6 @@ export default Component.extend({
   _lookupRoute(routeName) {
     const container = get(this, 'container');
     const route = container.lookup(`route:${routeName}`);
-    assert(`[ember-crumbly] \`route:${routeName}\` was not found`, route);
 
     return route;
   },
@@ -86,7 +87,11 @@ export default Component.extend({
     const pathLength = routeNames.length;
     const breadCrumbs = filteredRouteNames.map((name, index) => {
       const path = this._guessRoutePath(routeNames, name, index);
-      let breadCrumb = this._lookupRoute(path).getWithDefault('breadCrumb', undefined);
+      const route = this._lookupRoute(path);
+
+      assert(`[ember-crumbly] \`route:${path}\` was not found`, route);
+
+      let breadCrumb = route.getWithDefault('breadCrumb', undefined);
       const breadCrumbType = typeOf(breadCrumb);
 
       if (index === pathLength - 1) {

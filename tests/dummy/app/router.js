@@ -28,6 +28,8 @@ Router.map(function() {
   this.route('dessert', function() {
     this.route('cookie');
   });
+
+  this.route('about');
 });
 
 export default Router;
