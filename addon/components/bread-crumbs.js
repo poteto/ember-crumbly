@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import layout from '../templates/components/bread-crumbs';
 import computed from 'ember-new-computed';
+import getOwner from 'ember-getowner-polyfill';
 
 const {
   get,
@@ -33,11 +34,11 @@ export default Component.extend({
 
       assert('[ember-crumbly] Could not find a curent route', currentRouteName);
 
-      const routeNames = this._splitCurrentRouteName(currentRouteName);
+      const routeNames = currentRouteName.split('.');
       const filteredRouteNames = this._filterIndexRoutes(routeNames);
-
       const crumbs = this._lookupBreadCrumb(routeNames, filteredRouteNames);
-      return this.get('reverse') ? crumbs.reverse() : crumbs;
+
+      return get(this, 'reverse') ? crumbs.reverse() : crumbs;
     }
   }).readOnly(),
 
@@ -54,10 +55,6 @@ export default Component.extend({
       return className;
     }
   }).readOnly(),
-
-  _splitCurrentRouteName(currentRouteName) {
-    return currentRouteName.split('.');
-  },
 
   _guessRoutePath(routeNames, name, index) {
     const routes = routeNames.slice(0, index + 1);
@@ -76,10 +73,7 @@ export default Component.extend({
   },
 
   _lookupRoute(routeName) {
-    const container = get(this, 'container');
-    const route = container.lookup(`route:${routeName}`);
-
-    return route;
+    return getOwner(this).lookup(`route:${routeName}`);
   },
 
   _lookupBreadCrumb(routeNames, filteredRouteNames) {
@@ -91,7 +85,7 @@ export default Component.extend({
 
       assert(`[ember-crumbly] \`route:${path}\` was not found`, route);
 
-      let breadCrumb = route.getWithDefault('breadCrumb', undefined);
+      let breadCrumb = getWithDefault(route, 'breadCrumb', undefined);
       const breadCrumbType = typeOf(breadCrumb);
 
       if (index === pathLength - 1) {
