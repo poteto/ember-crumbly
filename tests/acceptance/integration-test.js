@@ -1,24 +1,17 @@
 import Ember from 'ember';
-import { module, test } from 'qunit';
-import startApp from '../helpers/start-app';
-import {
-  lookupComponent
-} from '../helpers/lookup';
+import { test } from 'qunit';
+import moduleForAcceptance from '../helpers/module-for-acceptance';
+import { lookupComponent } from '../helpers/lookup';
 
-const { run } = Ember;
-
-let application;
 let componentInstance;
 
-module('Acceptance | ember-crumbly integration test', {
+moduleForAcceptance('Acceptance | ember-crumbly integration test', {
   beforeEach() {
-    application = startApp();
-    componentInstance = lookupComponent(application, 'bread-crumbs');
+    componentInstance = lookupComponent(this.application, 'bread-crumbs');
   },
 
   afterEach() {
     componentInstance = null;
-    run(application, 'destroy');
   }
 });
 

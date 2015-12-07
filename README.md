@@ -1,6 +1,6 @@
 # ember-crumbly
 
-[![npm version](https://badge.fury.io/js/ember-crumbly.svg)](http://badge.fury.io/js/ember-crumbly) [![Build Status](https://travis-ci.org/poteto/ember-crumbly.svg)](https://travis-ci.org/poteto/ember-crumbly) [![Ember Observer Score](http://emberobserver.com/badges/ember-crumbly.svg)](http://emberobserver.com/addons/ember-crumbly)
+[![npm version](https://badge.fury.io/js/ember-crumbly.svg)](http://badge.fury.io/js/ember-crumbly) [![Build Status](https://travis-ci.org/poteto/ember-crumbly.svg?branch=master)](https://travis-ci.org/poteto/ember-crumbly) [![Ember Observer Score](http://emberobserver.com/badges/ember-crumbly.svg)](http://emberobserver.com/addons/ember-crumbly)
 
 [Demo app](http://development.ember-crumbly-demo.divshot.io)
 
@@ -13,7 +13,7 @@ $ ember install ember-crumbly
 ```
 
 ## Compatibility
-This addon is tested against the `release`, `beta` and `canary` channels, `~1.11.x`, and `1.12.x`.
+This addon is tested against the `release`, `beta` and `canary` channels, and explicitly tested against all versions beginning from `~1.11.x` and up.
 
 ## Usage
 
