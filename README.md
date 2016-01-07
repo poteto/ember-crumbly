@@ -21,11 +21,11 @@ This addon is tested against the `release`, `beta` and `canary` channels, and ex
 Basic usage is simple, just add the Component to any template in your application:
 
 ```hbs
-{{bread-crumbs tagName="ol" outputStyle="bootstrap" linkable=true}}
-{{bread-crumbs tagName="ul" outputStyle="foundation" linkable=false}}
+{{bread-crumbs linkable=true}}
+{{bread-crumbs linkable=false}}
 ```
 
-This will automatically output the current route's hierarchy as a clickable breadcrumb in a HTML structure that Bootstrap or Foundation expects. By default, the Component will simply display the route's inferred name.
+This will automatically output the current route's hierarchy as a clickable breadcrumb. By default, the Component will simply display the route's inferred name.
 
 For example, the route `foo/bar/baz/1` will generate the following breadcrumb: `Foo > Bar > Baz > Show`. In most cases, this won't be exactly how you'd like it, so you can use the following declarative API to update the breadcrumb labels:
 
@@ -103,7 +103,7 @@ export default Ember.Route.extend({
 ```
 
 ```hbs
-{{#bread-crumbs outputStyle="bootstrap" linkable=true as |component cow|}}
+{{#bread-crumbs linkable=true as |component cow|}}
   {{#bread-crumb route=cow breadCrumbs=component}}
     {{#if cow.title}}
       {{cow.title}}
@@ -160,7 +160,7 @@ Will generate the following breadcrumb: `_Animals_ > Quadrupeds > _Cows_ > Cows 
 You can set your own `li` classes by passing in the appropriate `crumbClass` to the Component:
 
 ```hbs
-{{bread-crumbs tagName="ul" outputStyle="foundation" linkable=true crumbClass="breadcrumb-item"}}
+{{bread-crumbs tagName="ul" linkable=true crumbClass="breadcrumb-item"}}
 ```
 
 Which generates the following HTML:
@@ -187,7 +187,7 @@ Which generates the following HTML:
 You can set your own `a` classes by passing in the appropriate `linkClass` to the Component:
 
 ```hbs
-{{bread-crumbs tagName="ul" outputStyle="foundation" linkable=true linkClass="breadcrumb-link"}}
+{{bread-crumbs tagName="ul" linkable=true linkClass="breadcrumb-link"}}
 ```
 
 Which generates the following HTML:
