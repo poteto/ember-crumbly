@@ -2,5 +2,7 @@
 'use strict';
 
 module.exports = {
-  name: 'ember-crumbly'
+  name: 'ember-crumbly',
+
+  isDevelopingAddon: function() { return true; },
 };
