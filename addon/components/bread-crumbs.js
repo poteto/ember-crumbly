@@ -76,6 +76,9 @@ export default Component.extend({
   _lookupRoute(routeName) {
     const container = Ember.getOwner(this);
     const route = container.lookup(`route:${routeName}`);
+    if (routeName.match(/loading|error/)) {
+      return null;
+    }
     // assert(`[ember-crumbly] \`route:${routeName}\` was not found`, route);
 
     return route;
