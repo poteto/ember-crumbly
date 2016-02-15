@@ -74,9 +74,9 @@ export default Component.extend({
   },
 
   _lookupRoute(routeName) {
-    const container = get(this, 'container');
+    const container = Ember.getOwner(this);
     const route = container.lookup(`route:${routeName}`);
-    assert(`[ember-crumbly] \`route:${routeName}\` was not found`, route);
+    // assert(`[ember-crumbly] \`route:${routeName}\` was not found`, route);
 
     return route;
   },
@@ -86,7 +86,8 @@ export default Component.extend({
     const pathLength = routeNames.length;
     const breadCrumbs = filteredRouteNames.map((name, index) => {
       const path = this._guessRoutePath(routeNames, name, index);
-      let breadCrumb = this._lookupRoute(path).getWithDefault('breadCrumb', undefined);
+      let route = this._lookupRoute(path);
+      let breadCrumb = route && route.getWithDefault('breadCrumb', undefined);
       const breadCrumbType = typeOf(breadCrumb);
 
       if (index === pathLength - 1) {
