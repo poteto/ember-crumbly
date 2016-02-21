@@ -47,7 +47,7 @@ export default Component.extend({
       const currentPath = getWithDefault(this, 'currentPath', false);
       const routeNames = pathNames.filter((path) => currentPath.indexOf(path) > -1);
       const filteredRouteNames = routeNames.filter((path) => path.indexOf('index') === -1);
-      const indexRoute = routeNames.filter((path) => path.indexOf('index') > -1)[0];
+      const [indexRoute] = routeNames.filter((path) => path.indexOf('index') > -1);
 
       const crumbs = this._lookupBreadCrumb(filteredRouteNames, indexRoute);
       return get(this, 'reverse') ? crumbs.reverse() : crumbs;
@@ -76,11 +76,11 @@ export default Component.extend({
     const defaultLinkable = get(this, 'linkable');
     const routesLength = routeNames.length;
     const breadCrumbs = routeNames.map((path, index) => {
-      const isLastRoute = index === routesLength-1;
+      const isLastRoute = index === routesLength - 1;
 
-      if (!!indexRoute && isLastRoute) { 
-		path = indexRoute; 
-	  }
+      if (!!indexRoute && isLastRoute) {
+        path = indexRoute;
+      }
 
       const route = this._lookupRoute(path);
 
