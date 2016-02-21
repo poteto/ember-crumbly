@@ -68,18 +68,6 @@ export default Component.extend({
     }
   }).readOnly(),
 
-  _guessRoutePath(routeNames, name, index) {
-    const routes = routeNames.slice(0, index + 1);
-
-    if (routes.length === 1) {
-      let path = `${name}.index`;
-
-      return (this._lookupRoute(path)) ? path : name;
-    }
-
-    return routes[index];
-  },
-
   _lookupRoute(routeName) {
     return getOwner(this).lookup(`route:${routeName}`);
   },
