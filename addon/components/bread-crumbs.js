@@ -77,39 +77,25 @@ export default Component.extend({
   },
 
   _lookupBreadCrumb(routeNames, filteredRouteNames) {
-    let defaultLinkable = get(this, 'linkable');
+    const defaultLinkable = get(this, 'linkable');
     const pathLength = routeNames.length;
     const breadCrumbs = filteredRouteNames.map((name, index) => {
       const path = this._guessRoutePath(routeNames, name, index);
       const route = this._lookupRoute(path);
+      const crumbLinkable = (index === pathLength - 1) ? false : defaultLinkable;
 
       assert(`[ember-crumbly] \`route:${path}\` was not found`, route);
 
-      let breadCrumb = getWithDefault(route, 'breadCrumb', undefined);
-      const breadCrumbType = typeOf(breadCrumb);
+      let breadCrumb = getWithDefault(route, 'breadCrumb', {
+        title: classify(name)
+      });
 
-      let isHead = index === 0;
-      let isTail = index === filteredRouteNames.length - 1;
-
-      if (index === pathLength - 1) {
-        defaultLinkable = false;
-      }
-      if (breadCrumbType === 'undefined') {
-        breadCrumb = {
-          path,
-          isTail,
-          isHead,
-          linkable: defaultLinkable,
-          title: classify(name)
-        };
-      } else if (breadCrumbType === 'null') {
+      if (typeOf(breadCrumb) === 'null') {
         return;
       } else {
         setProperties(breadCrumb, {
           path,
-          isTail,
-          isHead,
-          linkable: breadCrumb.hasOwnProperty('linkable') ? breadCrumb.linkable : defaultLinkable
+          linkable: breadCrumb.hasOwnProperty('linkable') ? breadCrumb.linkable : crumbLinkable
         });
       }
 
