@@ -150,7 +150,6 @@ test('routes with no breadcrumb should render with their capitalized inferred na
   andThen(() => {
     const allListItems = find('#bootstrapLinkable li').text();
     const allLinkItems = find('#bootstrapLinkable li a').text();
-
     const hasDessertInallList = allListItems.indexOf('Dessert') >= 0;
     const hasCookieTextInallList = allListItems.indexOf('Cookie') >= 0;
 

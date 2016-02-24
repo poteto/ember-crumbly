@@ -84,12 +84,12 @@ export default Component.extend({
 
       const route = this._lookupRoute(path);
 
-      const crumbLinkable = isLastroute ? false : defaultLinkable;
+      const crumbLinkable = isLastRoute ? false : defaultLinkable;
       const isHead = index === 0;
       const isTail = isLastRoute;
 
       let breadCrumb = getWithDefault(route, 'breadCrumb', {
-        title: classify(name)
+        title: classify(path)
       });
 
       if (typeOf(breadCrumb) === 'null') {
