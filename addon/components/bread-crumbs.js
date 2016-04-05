@@ -35,7 +35,7 @@ export default Component.extend({
       assert('[ember-crumbly] Could not find a curent route', currentRouteName);
 
       const routeNames = currentRouteName.split('.');
-      const filteredRouteNames = this._filterIndexRoutes(routeNames);
+      const filteredRouteNames = this._filterIndexAndLoadingRoutes(routeNames);
       const crumbs = this._lookupBreadCrumb(routeNames, filteredRouteNames);
 
       return get(this, 'reverse') ? crumbs.reverse() : crumbs;
@@ -68,8 +68,8 @@ export default Component.extend({
     return routes.join('.');
   },
 
-  _filterIndexRoutes(routeNames) {
-    return routeNames.filter((name) => name !== 'index');
+  _filterIndexAndLoadingRoutes(routeNames) {
+    return routeNames.filter((name) => !(name === 'index' || name === 'loading') );
   },
 
   _lookupRoute(routeName) {
