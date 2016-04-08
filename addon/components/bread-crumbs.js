@@ -5,6 +5,7 @@ import getOwner from 'ember-getowner-polyfill';
 
 const {
   get,
+  set,
   Component,
   getWithDefault,
   assert,
@@ -103,7 +104,7 @@ export default Component.extend({
     });
 
     if (breadCrumbs.length)
-      breadCrumbs[breadCrumbs.length - 1].linkable = false;
+      set(breadCrumbs[breadCrumbs.length - 1], 'linkable', false);
 
     return emberArray(breadCrumbs.filter((breadCrumb) => typeOf(breadCrumb) !== 'undefined'));
   }
