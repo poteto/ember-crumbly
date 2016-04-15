@@ -23,6 +23,7 @@ export default Component.extend({
   tagName: 'ol',
   linkable: true,
   reverse: false,
+  i18n: false,
   classNameBindings: ['breadCrumbClass'],
   hasBlock: bool('template').readOnly(),
   currentUrl: readOnly('applicationRoute.router.url'),
