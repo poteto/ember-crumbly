@@ -14,6 +14,7 @@ export default Component.extend({
   layout,
   tagName: 'li',
   classNameBindings: ['crumbClass'],
+  i18n: false,
 
   crumbClass: oneWay('breadCrumbs.crumbClass'),
   linkClass: oneWay('breadCrumbs.linkClass'),
