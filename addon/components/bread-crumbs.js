@@ -103,9 +103,6 @@ export default Component.extend({
       return breadCrumb;
     });
 
-    if (breadCrumbs.length)
-      set(breadCrumbs[breadCrumbs.length - 1], 'linkable', false);
-
     return emberArray(breadCrumbs.filter((breadCrumb) => typeOf(breadCrumb) !== 'undefined'));
   }
 });
