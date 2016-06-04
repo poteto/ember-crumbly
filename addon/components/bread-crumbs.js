@@ -9,9 +9,7 @@ const {
         getWithDefault,
         assert,
         setProperties,
-        A: emberArray,
-        String: { classify },
-        inject
+        String: { classify }
       } = Ember;
 const {
         bool,
@@ -25,19 +23,22 @@ export default Component.extend({
   reverse: false,
   classNameBindings: ['breadCrumbClass'],
   hasBlock: bool('template').readOnly(),
-  routing: inject.service('-routing'),
-  currentUrl: readOnly('routing.router.url'),
-  currentRouteName: readOnly('routing.currentRouteName'),
+//  router: Ember.inject.service('-routing'),
+//  currentUrl: readOnly('router.router.url'),
+//  currentRouteName: readOnly('router.currentRouteName'),
+  currentUrl: readOnly('applicationRoute.router.url'),
+  currentRouteName: readOnly('applicationRoute.controller.currentRouteName'),
 
   routeHierarchy: computed('currentUrl', 'reverse', function() {
     const currentRouteName = get(this, 'currentRouteName');
+
     assert('[ember-crumbly] Could not find a curent route', currentRouteName);
 
     const routeNames = currentRouteName.split('.');
     const filteredRouteNames = this._filterIndexAndLoadingRoutes(routeNames);
     const crumbs = this._lookupBreadCrumb(routeNames, filteredRouteNames);
 
-    return get(this, 'reverse') ? crumbs.reverse() : crumbs;
+    return get(this, 'reverse') ? Ember.A(crumbs.reverse()) : Ember.A(crumbs);
   }).readOnly(),
 
   breadCrumbClass: computed('outputStyle', function() {
@@ -69,7 +70,7 @@ export default Component.extend({
     const defaultLinkable = get(this, 'linkable');
     const pathLength = routeNames.length;
 
-    return emberArray(filteredRouteNames.map((name, index) => {
+    return Ember.A(filteredRouteNames.map((name, index) => {
       const path = this._guessRoutePath(routeNames, name, index);
       const route = this._lookupRoute(path);
 
