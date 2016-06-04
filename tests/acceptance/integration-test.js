@@ -1,33 +1,15 @@
 import Ember from 'ember';
-import { module, test } from 'qunit';
-import startApp from '../helpers/start-app';
-import {
-  lookupComponent
-} from '../helpers/lookup';
+import { test } from 'qunit';
+import moduleForAcceptance from '../helpers/module-for-acceptance';
 
-const { run } = Ember;
-
-let application;
-let componentInstance;
-
-module('Acceptance | ember-crumbly integration test', {
-  beforeEach() {
-    application = startApp();
-    componentInstance = lookupComponent(application, 'bread-crumbs');
-  },
-
-  afterEach() {
-    componentInstance = null;
-    run(application, 'destroy');
-  }
-});
+moduleForAcceptance('Acceptance | ember-crumbly integration test');
 
 test('routeHierarchy returns the correct number of routes', function(assert) {
   assert.expect(3);
   visit('/foo/bar/baz');
 
   andThen(() => {
-    const routeHierarchy = componentInstance.get('routeHierarchy');
+    const routeHierarchy = this.componentInstance.get('routeHierarchy');
     const numberOfRenderedBreadCrumbs = find('#bootstrapLinkable li').length;
     assert.equal(currentRouteName(), 'foo.bar.baz.index', 'correct current route name');
     assert.equal(routeHierarchy.length, 3, 'returns correct number of routes');
@@ -40,7 +22,7 @@ test('routes that opt-out are not shown', function(assert) {
   visit('/foo/bar/baz/hidden');
 
   andThen(() => {
-    const routeHierarchy = componentInstance.get('routeHierarchy');
+    const routeHierarchy = this.componentInstance.get('routeHierarchy');
     const numberOfRenderedBreadCrumbs = find('#foundationLinkable li').length;
     assert.equal(currentRouteName(), 'foo.bar.baz.hidden', 'correct current route name');
     assert.equal(routeHierarchy.length, 3, 'returns correct number of routes');
@@ -53,7 +35,7 @@ test('routes can set dynamic breadcrumb props', function(assert) {
   visit('/foo/bar/baz/show');
 
   andThen(() => {
-    const routeHierarchy = componentInstance.get('routeHierarchy');
+    const routeHierarchy = this.componentInstance.get('routeHierarchy');
     const routeTitles = routeHierarchy.map((route) => route.title);
     const routeLooks = routeHierarchy.map((route) => route.look);
     const routeLinkables = routeHierarchy.map((route) => route.linkable);
