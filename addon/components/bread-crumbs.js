@@ -23,6 +23,7 @@ export default Component.extend({
   reverse: false,
   classNameBindings: ['breadCrumbClass'],
   hasBlock: bool('template').readOnly(),
+  // for Ember 2.0+
 //  router: Ember.inject.service('-routing'),
 //  currentUrl: readOnly('router.router.url'),
 //  currentRouteName: readOnly('router.currentRouteName'),
