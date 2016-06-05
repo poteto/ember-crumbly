@@ -11,12 +11,12 @@ addons:
   # Adding two results in the last one defined being the one installed.
   firefox: latest
   # Current broken on Travis 15/March/2016
-  #apt:
-  #  sources:
-  #    - google-chrome
-  #  packages:
-  #    - google-chrome-stable
-  #    - google-chrome-beta
+  apt:
+   sources:
+     - google-chrome
+   packages:
+     - google-chrome-stable
+     - google-chrome-beta
 
 before_install:
   # Chrome Stable
@@ -37,13 +37,13 @@ cache:
 
 env:
   - EMBER_TRY_SCENARIO=default
-  - EMBER_TRY_SCENARIO=ember-1.11
-  - EMBER_TRY_SCENARIO=ember-1.12
+  - EMBER_TRY_SCENARIO=ember-1.11.4
+  - EMBER_TRY_SCENARIO=ember-1.12.2
   - EMBER_TRY_SCENARIO=ember-1.13.3
-  - EMBER_TRY_SCENARIO=ember-2.0
-  - EMBER_TRY_SCENARIO=ember-2.1
-  - EMBER_TRY_SCENARIO=ember-2.2
-  - EMBER_TRY_SCENARIO=ember-2.3
+  - EMBER_TRY_SCENARIO=ember-2.0.3
+  - EMBER_TRY_SCENARIO=ember-2.1.2
+  - EMBER_TRY_SCENARIO=ember-2.2.2
+  - EMBER_TRY_SCENARIO=ember-2.3.1
   - EMBER_TRY_SCENARIO=ember-release
   - EMBER_TRY_SCENARIO=ember-beta
   - EMBER_TRY_SCENARIO=ember-canary
