@@ -1,24 +1,17 @@
 import Ember from 'ember';
-import { module, test } from 'qunit';
-import startApp from '../helpers/start-app';
-import {
-  lookupComponent
-} from '../helpers/lookup';
+import { test } from 'qunit';
+import moduleForAcceptance from '../helpers/module-for-acceptance';
+import { lookupComponent } from '../helpers/lookup';
 
-const { run } = Ember;
-
-let application;
 let componentInstance;
 
-module('Acceptance | ember-crumbly integration test', {
+moduleForAcceptance('Acceptance | ember-crumbly integration test', {
   beforeEach() {
-    application = startApp();
-    componentInstance = lookupComponent(application, 'bread-crumbs');
+    componentInstance = lookupComponent(this.application, 'bread-crumbs');
   },
 
   afterEach() {
     componentInstance = null;
-    run(application, 'destroy');
   }
 });
 
@@ -45,6 +38,21 @@ test('routes that opt-out are not shown', function(assert) {
     assert.equal(currentRouteName(), 'foo.bar.baz.hidden', 'correct current route name');
     assert.equal(routeHierarchy.length, 3, 'returns correct number of routes');
     assert.equal(numberOfRenderedBreadCrumbs, 3, 'renders the correct number of breadcrumbs');
+  });
+});
+
+test('top-level flat routes render correctly', function(assert) {
+  assert.expect(4);
+  visit('/about');
+
+  andThen(() => {
+    const $breadCrumbs = find('#foundationLinkable li');
+    const routeHierarchy = componentInstance.get('routeHierarchy');
+    const numberOfRenderBreadCrumbs = $breadCrumbs.length;
+    assert.equal(currentRouteName(), 'about', 'correct current route name');
+    assert.equal(routeHierarchy.length, 1, 'returns correct number of routes');
+    assert.equal(numberOfRenderBreadCrumbs, 1, 'renders the correct number of breadcrumbs');
+    assert.equal($breadCrumbs.first().text().trim(), 'About Derek Zoolander', 'uses flat route breadcrumb settings');
   });
 });
 

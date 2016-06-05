@@ -1,0 +1,5 @@
+{
+  "preset": "ember-suave",
+  "disallowConstOutsideModuleScope": false,
+  "requireSpread": false
+}
