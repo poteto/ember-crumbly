@@ -4,17 +4,18 @@ import computed from 'ember-new-computed';
 import getOwner from 'ember-getowner-polyfill';
 
 const {
-        get,
-        Component,
-        getWithDefault,
-        assert,
-        setProperties,
-        String: { classify }
-      } = Ember;
+  get,
+  Component,
+  getWithDefault,
+  assert,
+  setProperties,
+  String: { classify }
+} = Ember;
+
 const {
-        bool,
-        readOnly
-      } = computed;
+  bool,
+  readOnly
+} = computed;
 
 export default Component.extend({
   layout,
@@ -24,9 +25,9 @@ export default Component.extend({
   classNameBindings: ['breadCrumbClass'],
   hasBlock: bool('template').readOnly(),
   // for Ember 2.0+
-//  router: Ember.inject.service('-routing'),
-//  currentUrl: readOnly('router.router.url'),
-//  currentRouteName: readOnly('router.currentRouteName'),
+  //  router: Ember.inject.service('-routing'),
+  //  currentUrl: readOnly('router.router.url'),
+  //  currentRouteName: readOnly('router.currentRouteName'),
   currentUrl: readOnly('applicationRoute.router.url'),
   currentRouteName: readOnly('applicationRoute.controller.currentRouteName'),
 
