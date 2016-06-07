@@ -1,15 +1,25 @@
 import Ember from 'ember';
 import { test } from 'qunit';
 import moduleForAcceptance from '../helpers/module-for-acceptance';
+import {lookupComponent} from '../helpers/lookup';
 
-moduleForAcceptance('Acceptance | ember-crumbly integration test');
+let componentInstance;
+moduleForAcceptance('Acceptance | ember-crumbly integration test', {
+  beforeEach() {
+    componentInstance = lookupComponent(this.application, 'bread-crumbs');
+  },
+
+  afterEach() {
+    componentInstance = null;
+  }
+});
 
 test('routeHierarchy returns the correct number of routes', function(assert) {
   assert.expect(3);
   visit('/foo/bar/baz');
 
   andThen(() => {
-    const routeHierarchy = this.componentInstance.get('routeHierarchy');
+    const routeHierarchy = componentInstance.get('routeHierarchy');
     const numberOfRenderedBreadCrumbs = find('#bootstrapLinkable li').length;
     assert.equal(currentRouteName(), 'foo.bar.baz.index', 'correct current route name');
     assert.equal(routeHierarchy.length, 3, 'returns correct number of routes');
@@ -22,7 +32,7 @@ test('routes that opt-out are not shown', function(assert) {
   visit('/foo/bar/baz/hidden');
 
   andThen(() => {
-    const routeHierarchy = this.componentInstance.get('routeHierarchy');
+    const routeHierarchy = componentInstance.get('routeHierarchy');
     const numberOfRenderedBreadCrumbs = find('#foundationLinkable li').length;
     assert.equal(currentRouteName(), 'foo.bar.baz.hidden', 'correct current route name');
     assert.equal(routeHierarchy.length, 3, 'returns correct number of routes');
@@ -35,7 +45,7 @@ test('routes can set dynamic breadcrumb props', function(assert) {
   visit('/foo/bar/baz/show');
 
   andThen(() => {
-    const routeHierarchy = this.componentInstance.get('routeHierarchy');
+    const routeHierarchy = componentInstance.get('routeHierarchy');
     const routeTitles = routeHierarchy.map((route) => route.title);
     const routeLooks = routeHierarchy.map((route) => route.look);
     const routeLinkables = routeHierarchy.map((route) => route.linkable);
