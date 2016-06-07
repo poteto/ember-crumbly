@@ -8,11 +8,10 @@ const {
   Component,
   getWithDefault,
   assert,
-  typeOf,
   setProperties,
-  A: emberArray,
   String: { classify }
 } = Ember;
+
 const {
   bool,
   readOnly
@@ -25,35 +24,28 @@ export default Component.extend({
   reverse: false,
   classNameBindings: ['breadCrumbClass'],
   hasBlock: bool('template').readOnly(),
+  // for Ember 2.0+
+  //  router: Ember.inject.service('-routing'),
+  //  currentUrl: readOnly('router.router.url'),
+  //  currentRouteName: readOnly('router.currentRouteName'),
   currentUrl: readOnly('applicationRoute.router.url'),
   currentRouteName: readOnly('applicationRoute.controller.currentRouteName'),
 
-  routeHierarchy: computed('currentUrl', 'currentRouteName', 'reverse', {
-    get() {
-      const currentRouteName = getWithDefault(this, 'currentRouteName', false);
+  routeHierarchy: computed('currentUrl', 'reverse', function() {
+    const currentRouteName = get(this, 'currentRouteName');
 
-      assert('[ember-crumbly] Could not find a curent route', currentRouteName);
+    assert('[ember-crumbly] Could not find a curent route', currentRouteName);
 
-      const routeNames = currentRouteName.split('.');
-      const filteredRouteNames = this._filterIndexAndLoadingRoutes(routeNames);
-      const crumbs = this._lookupBreadCrumb(routeNames, filteredRouteNames);
+    const routeNames = currentRouteName.split('.');
+    const filteredRouteNames = this._filterIndexAndLoadingRoutes(routeNames);
+    const crumbs = this._lookupBreadCrumb(routeNames, filteredRouteNames);
 
-      return get(this, 'reverse') ? crumbs.reverse() : crumbs;
-    }
+    return get(this, 'reverse') ? Ember.A(crumbs.reverse()) : Ember.A(crumbs);
   }).readOnly(),
 
-  breadCrumbClass: computed('outputStyle', {
-    get() {
-      let className = 'breadcrumb';
-      const outputStyle = getWithDefault(this, 'outputStyle', '');
-      const lowerCaseOutputStyle = outputStyle.toLowerCase();
-
-      if (lowerCaseOutputStyle === 'foundation') {
-        className = 'breadcrumbs';
-      }
-
-      return className;
-    }
+  breadCrumbClass: computed('outputStyle', function() {
+    const outputStyle = getWithDefault(this, 'outputStyle', '');
+    return (outputStyle.match(/foundation/i)) ? 'breadcrumbs' : 'breadcrumb';
   }).readOnly(),
 
   _guessRoutePath(routeNames, name, index) {
@@ -69,7 +61,7 @@ export default Component.extend({
   },
 
   _filterIndexAndLoadingRoutes(routeNames) {
-    return routeNames.filter((name) => !(name === 'index' || name === 'loading') );
+    return routeNames.filter((name) => !(name.match(/^(index|loading)$/)));
   },
 
   _lookupRoute(routeName) {
@@ -79,10 +71,10 @@ export default Component.extend({
   _lookupBreadCrumb(routeNames, filteredRouteNames) {
     const defaultLinkable = get(this, 'linkable');
     const pathLength = routeNames.length;
-    const breadCrumbs = filteredRouteNames.map((name, index) => {
+
+    return Ember.A(filteredRouteNames.map((name, index) => {
       const path = this._guessRoutePath(routeNames, name, index);
       const route = this._lookupRoute(path);
-      const crumbLinkable = (index === pathLength - 1) ? false : defaultLinkable;
 
       assert(`[ember-crumbly] \`route:${path}\` was not found`, route);
 
@@ -90,18 +82,15 @@ export default Component.extend({
         title: classify(name)
       });
 
-      if (typeOf(breadCrumb) === 'null') {
-        return;
-      } else {
+      if (breadCrumb) {
+        const crumbLinkable = (index === pathLength - 1) ? false : defaultLinkable;
         setProperties(breadCrumb, {
           path,
           linkable: breadCrumb.hasOwnProperty('linkable') ? breadCrumb.linkable : crumbLinkable
         });
+        return breadCrumb;
       }
 
-      return breadCrumb;
-    });
-
-    return emberArray(breadCrumbs.filter((breadCrumb) => typeOf(breadCrumb) !== 'undefined'));
+    })).compact();
   }
 });
