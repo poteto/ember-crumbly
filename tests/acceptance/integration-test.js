@@ -193,7 +193,7 @@ test('bread-crumbs change when the route is changed', function(assert) {
   visit('/foo/bar/baz');
 
   andThen(() => {
-    const lastCrumbText = find('#bootstrapLinkable li:last-child a').text().trim();
+    const lastCrumbText = find('#bootstrapLinkable li:last-child').text().trim();
 
     assert.equal(currentRouteName(), 'foo.bar.baz.index', 'correct current route name');
     assert.equal(lastCrumbText, 'I am Baz', 'renders the correct last breadcrumb');
