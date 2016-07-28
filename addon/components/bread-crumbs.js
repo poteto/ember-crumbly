@@ -11,7 +11,6 @@ const {
   typeOf,
   setProperties,
   A: emberArray,
-  String: { classify }
 } = Ember;
 const {
   bool,
@@ -19,12 +18,12 @@ const {
 } = computed;
 
 export default Component.extend({
-  layout,
-  tagName: 'ol',
-  linkable: true,
-  reverse: false,
-  hasBlock: bool('template').readOnly(),
-  currentUrl: readOnly('applicationRoute.router.url'),
+                    layout,
+  tagName:          'ol',
+  linkable:         true,
+  reverse:          false,
+  hasBlock:         bool('template').readOnly(),
+  currentUrl:       readOnly('applicationRoute.router.url'),
   currentRouteName: readOnly('applicationRoute.controller.currentRouteName'),
 
   routeHierarchy: computed('currentUrl', 'currentRouteName', 'reverse', {
@@ -67,15 +66,13 @@ export default Component.extend({
 
       assert(`[ember-crumbly] \`route:${path}\` was not found`, route);
 
-      let breadCrumb = getWithDefault(route, 'breadCrumb', {
-        title: classify(name)
-      });
+      let breadCrumb = get(route, 'breadCrumb');
 
-      if (typeOf(breadCrumb) === 'null') {
+      if (!breadCrumb) {
         return;
       } else {
         setProperties(breadCrumb, {
-          path,
+                    path,
           linkable: breadCrumb.hasOwnProperty('linkable') ? breadCrumb.linkable : crumbLinkable
         });
       }
