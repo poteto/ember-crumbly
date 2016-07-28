@@ -23,7 +23,6 @@ export default Component.extend({
   tagName: 'ol',
   linkable: true,
   reverse: false,
-  classNameBindings: ['breadCrumbClass'],
   hasBlock: bool('template').readOnly(),
   currentUrl: readOnly('applicationRoute.router.url'),
   currentRouteName: readOnly('applicationRoute.controller.currentRouteName'),
@@ -35,26 +34,12 @@ export default Component.extend({
       assert('[ember-crumbly] Could not find a curent route', currentRouteName);
 
       const routeNames = currentRouteName.split('.');
-      const filteredRouteNames = this._filterIndexAndLoadingRoutes(routeNames);
-      const crumbs = this._lookupBreadCrumb(routeNames, filteredRouteNames);
+      const crumbs = this._lookupBreadCrumb(routeNames, routeNames);
 
       return get(this, 'reverse') ? crumbs.reverse() : crumbs;
     }
   }).readOnly(),
 
-  breadCrumbClass: computed('outputStyle', {
-    get() {
-      let className = 'breadcrumb';
-      const outputStyle = getWithDefault(this, 'outputStyle', '');
-      const lowerCaseOutputStyle = outputStyle.toLowerCase();
-
-      if (lowerCaseOutputStyle === 'foundation') {
-        className = 'breadcrumbs';
-      }
-
-      return className;
-    }
-  }).readOnly(),
 
   _guessRoutePath(routeNames, name, index) {
     const routes = routeNames.slice(0, index + 1);
@@ -66,10 +51,6 @@ export default Component.extend({
     }
 
     return routes.join('.');
-  },
-
-  _filterIndexAndLoadingRoutes(routeNames) {
-    return routeNames.filter((name) => !(name === 'index' || name === 'loading') );
   },
 
   _lookupRoute(routeName) {
