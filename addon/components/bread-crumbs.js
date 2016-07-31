@@ -79,7 +79,7 @@ export default Component.extend({
   _lookupBreadCrumb(routeNames, filteredRouteNames) {
     let defaultLinkable = get(this, 'linkable');
     let pathLength = routeNames.length;
-    let breadCrumbs = [];
+    let breadCrumbs = emberArray();
 
     filteredRouteNames.map((name, index) => {
       let path = this._guessRoutePath(routeNames, name, index);
