@@ -77,29 +77,39 @@ export default Component.extend({
   },
 
   _lookupBreadCrumb(routeNames, filteredRouteNames) {
-    const defaultLinkable = get(this, 'linkable');
-    const pathLength = routeNames.length;
-    const breadCrumbs = filteredRouteNames.map((name, index) => {
-      const path = this._guessRoutePath(routeNames, name, index);
-      const route = this._lookupRoute(path);
-      const crumbLinkable = (index === pathLength - 1) ? false : defaultLinkable;
+    let defaultLinkable = get(this, 'linkable');
+    let pathLength = routeNames.length;
+    let breadCrumbs = [];
+
+    filteredRouteNames.map((name, index) => {
+      let path = this._guessRoutePath(routeNames, name, index);
+      let route = this._lookupRoute(path);
+      let crumbLinkable = (index === pathLength - 1) ? false : defaultLinkable;
 
       assert(`[ember-crumbly] \`route:${path}\` was not found`, route);
 
-      let breadCrumb = getWithDefault(route, 'breadCrumb', {
-        title: classify(name)
-      });
+      let multipleBreadCrumbs = route.get('multipleBreadCrumbs');
 
-      if (typeOf(breadCrumb) === 'null') {
-        return;
-      } else {
-        setProperties(breadCrumb, {
-          path,
-          linkable: breadCrumb.hasOwnProperty('linkable') ? breadCrumb.linkable : crumbLinkable
+      if (multipleBreadCrumbs) {
+        multipleBreadCrumbs.forEach((breadCrumb) => {
+          breadCrumbs.pushObject(breadCrumb);
         });
-      }
+      } else {
+        let breadCrumb = getWithDefault(route, 'breadCrumb', {
+          title: classify(name)
+        });
 
-      return breadCrumb;
+        if (typeOf(breadCrumb) === 'null') {
+          return;
+        } else {
+          setProperties(breadCrumb, {
+            path,
+            linkable: breadCrumb.hasOwnProperty('linkable') ? breadCrumb.linkable : crumbLinkable
+          });
+        }
+
+        breadCrumbs.pushObject(breadCrumb);
+      }
     });
 
     return emberArray(breadCrumbs.filter((breadCrumb) => typeOf(breadCrumb) !== 'undefined'));
