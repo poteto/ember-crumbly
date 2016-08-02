@@ -3,6 +3,10 @@ language: node_js
 node_js:
   - "stable"
 
+# use trusty beta
+dist: trusty
+sudo: required
+
 addons:
   apt:
     sources:
