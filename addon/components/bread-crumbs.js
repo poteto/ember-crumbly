@@ -10,7 +10,7 @@ const {
   assert,
   typeOf,
   setProperties,
-  A: emberArray,
+  A: emberArray
 } = Ember;
 const {
   bool,
@@ -18,12 +18,12 @@ const {
 } = computed;
 
 export default Component.extend({
-                    layout,
-  tagName:          'ol',
-  linkable:         true,
-  reverse:          false,
-  hasBlock:         bool('template').readOnly(),
-  currentUrl:       readOnly('applicationRoute.router.url'),
+  layout,
+  tagName: 'ol',
+  linkable: true,
+  reverse: false,
+  hasBlock: bool('template').readOnly(),
+  currentUrl: readOnly('applicationRoute.router.url'),
   currentRouteName: readOnly('applicationRoute.controller.currentRouteName'),
 
   routeHierarchy: computed('currentUrl', 'currentRouteName', 'reverse', {
@@ -38,7 +38,6 @@ export default Component.extend({
       return get(this, 'reverse') ? crumbs.reverse() : crumbs;
     }
   }).readOnly(),
-
 
   _guessRoutePath(routeNames, name, index) {
     const routes = routeNames.slice(0, index + 1);
@@ -72,7 +71,7 @@ export default Component.extend({
         return;
       } else {
         setProperties(breadCrumb, {
-                    path,
+          path,
           linkable: breadCrumb.hasOwnProperty('linkable') ? breadCrumb.linkable : crumbLinkable
         });
       }
