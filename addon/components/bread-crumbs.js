@@ -1,11 +1,11 @@
 import Ember from 'ember';
 import layout from '../templates/components/bread-crumbs';
-import computed from 'ember-new-computed';
 import getOwner from 'ember-getowner-polyfill';
 
 const {
   get,
   Component,
+  computed,
   getWithDefault,
   assert,
   typeOf,
