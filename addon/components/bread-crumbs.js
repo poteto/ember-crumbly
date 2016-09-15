@@ -1,11 +1,11 @@
 import Ember from 'ember';
 import layout from '../templates/components/bread-crumbs';
-import computed from 'ember-new-computed';
 import getOwner from 'ember-getowner-polyfill';
 
 const {
   get,
   Component,
+  computed,
   getWithDefault,
   assert,
   typeOf,
@@ -69,7 +69,7 @@ export default Component.extend({
   },
 
   _filterIndexAndLoadingRoutes(routeNames) {
-    return routeNames.filter((name) => !(name === 'index' || name === 'loading') );
+    return routeNames.filter((name) => !(name === 'index' || name === 'loading'));
   },
 
   _lookupRoute(routeName) {
