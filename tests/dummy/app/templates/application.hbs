@@ -38,3 +38,7 @@
 {{bread-crumbs id="customLinkClass" linkClass="breadcrumb-link"}}
 
 {{outlet}}
+
+{{#if errorTest}}
+  {{link-to 'error link' 'foo.bar.baz.show-with-params' 1 class='error-link'}}
+{{/if}}
