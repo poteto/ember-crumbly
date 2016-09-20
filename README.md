@@ -74,6 +74,28 @@ export default Ember.Route.extend({
 
 Will generate the following breadcrumb: `Animals > Quadrupeds > Cows > Mary`.
 
+Alternatively, `breadCrumb` can be defined as a computed property to reflect changes to the data:
+
+```js
+// foo/bar/baz/show/route.js
+
+export default Ember.Route.extend({
+  breadCrumb: Ember.computed('controller.model.name', {
+    get() {
+      const cowName = get('controller.model.name') || 'Cow';
+
+      const cow = {
+        title: cowName
+      }
+    
+      return cow;
+    }
+  }
+});
+```
+
+In this case, if the `name` property of `model` is modified, the breadcrumb will be updated automatically.
+
 ### Advanced usage
 You can also pass in arbitrary properties to the `breadCrumb` POJO inside your route, and then pass in a custom template to the Component's block to render it the way you'd like:
 
