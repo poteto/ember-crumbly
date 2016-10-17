@@ -7,7 +7,6 @@ const {
   get,
   Component,
   getWithDefault,
-  assert,
   typeOf,
   setProperties,
   A: emberArray,
@@ -26,18 +25,31 @@ export default Component.extend({
   classNameBindings: ['breadCrumbClass'],
   hasBlock: bool('template').readOnly(),
   currentUrl: readOnly('applicationRoute.router.url'),
+  router: readOnly('applicationRoute.router'),
+  currentPath: readOnly('applicationRoute.controller.currentPath'),
   currentRouteName: readOnly('applicationRoute.controller.currentRouteName'),
 
-  routeHierarchy: computed('currentUrl', 'currentRouteName', 'reverse', {
+  handlerInfos: computed('currentRouteName', {
     get() {
-      const currentRouteName = getWithDefault(this, 'currentRouteName', false);
+      return this.get('router').router.currentHandlerInfos;
+    }
+  }),
 
-      assert('[ember-crumbly] Could not find a curent route', currentRouteName);
+  pathNames: computed('handlerInfos.[]', {
+    get() {
+      return this.get('handlerInfos').map((handlerInfo) => handlerInfo.name);
+    }
+  }),
 
-      const routeNames = currentRouteName.split('.');
-      const filteredRouteNames = this._filterIndexRoutes(routeNames);
-      const crumbs = this._lookupBreadCrumb(routeNames, filteredRouteNames);
+  routeHierarchy: computed('currentUrl', 'pathNames', 'reverse', {
+    get() {
+      const pathNames = this.get('pathNames');
+      const currentPath = getWithDefault(this, 'currentPath', false);
+      const routeNames = pathNames.filter((path) => currentPath.indexOf(path) > -1);
+      const filteredRouteNames = routeNames.filter((path) => path.indexOf('index') === -1);
+      const [indexRoute] = routeNames.filter((path) => path.indexOf('index') > -1);
 
+      const crumbs = this._lookupBreadCrumb(filteredRouteNames, indexRoute);
       return get(this, 'reverse') ? crumbs.reverse() : crumbs;
     }
   }).readOnly(),
@@ -56,42 +68,28 @@ export default Component.extend({
     }
   }).readOnly(),
 
-  _guessRoutePath(routeNames, name, index) {
-    const routes = routeNames.slice(0, index + 1);
-
-    if (routes.length === 1) {
-      let path = `${name}.index`;
-
-      return (this._lookupRoute(path)) ? path : name;
-    }
-
-    return routes.join('.');
-  },
-
-  _filterIndexRoutes(routeNames) {
-    return routeNames.filter((name) => name !== 'index');
-  },
-
   _lookupRoute(routeName) {
     return getOwner(this).lookup(`route:${routeName}`);
   },
 
-  _lookupBreadCrumb(routeNames, filteredRouteNames) {
+  _lookupBreadCrumb(routeNames, indexRoute) {
     const defaultLinkable = get(this, 'linkable');
-    const pathLength = routeNames.length;
-    const filteredRouteLength = filteredRouteNames.length;
-    const breadCrumbs = filteredRouteNames.map((name, index) => {
-      const path = this._guessRoutePath(routeNames, name, index);
+    const routesLength = routeNames.length;
+    const breadCrumbs = routeNames.map((path, index) => {
+      const isLastRoute = index === routesLength - 1;
+
+      if (!!indexRoute && isLastRoute) {
+        path = indexRoute;
+      }
+
       const route = this._lookupRoute(path);
+
+      const crumbLinkable = isLastRoute ? false : defaultLinkable;
       const isHead = index === 0;
-      const isTail = index === filteredRouteLength - 1;
-
-      const crumbLinkable = (index === pathLength - 1) ? false : defaultLinkable;
-
-      assert(`[ember-crumbly] \`route:${path}\` was not found`, route);
+      const isTail = isLastRoute;
 
       let breadCrumb = getWithDefault(route, 'breadCrumb', {
-        title: classify(name)
+        title: classify(path)
       });
 
       if (typeOf(breadCrumb) === 'null') {
