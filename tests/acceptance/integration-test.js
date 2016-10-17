@@ -21,7 +21,7 @@ test('routeHierarchy returns the correct number of routes', function(assert) {
 
   andThen(() => {
     const routeHierarchy = componentInstance.get('routeHierarchy');
-    const numberOfRenderedBreadCrumbs = find('#bootstrapLinkable li').length;
+    const numberOfRenderedBreadCrumbs = find('#linkable li').length;
     assert.equal(currentRouteName(), 'foo.bar.baz.index', 'correct current route name');
     assert.equal(routeHierarchy.length, 3, 'returns correct number of routes');
     assert.equal(numberOfRenderedBreadCrumbs, 3, 'renders the correct number of breadcrumbs');
@@ -34,7 +34,7 @@ test('routes that opt-out are not shown', function(assert) {
 
   andThen(() => {
     const routeHierarchy = componentInstance.get('routeHierarchy');
-    const numberOfRenderedBreadCrumbs = find('#foundationLinkable li').length;
+    const numberOfRenderedBreadCrumbs = find('#linkable li').length;
     assert.equal(currentRouteName(), 'foo.bar.baz.hidden', 'correct current route name');
     assert.equal(routeHierarchy.length, 3, 'returns correct number of routes');
     assert.equal(numberOfRenderedBreadCrumbs, 3, 'renders the correct number of breadcrumbs');
@@ -46,7 +46,7 @@ test('top-level flat routes render correctly', function(assert) {
   visit('/about');
 
   andThen(() => {
-    const $breadCrumbs = find('#foundationLinkable li');
+    const $breadCrumbs = find('#linkable li');
     const routeHierarchy = componentInstance.get('routeHierarchy');
     const numberOfRenderBreadCrumbs = $breadCrumbs.length;
     assert.equal(currentRouteName(), 'about', 'correct current route name');
@@ -108,26 +108,11 @@ test('routes that are not linkable do not generate an <a> tag', function(assert)
   visit('/foo/bar/baz/');
 
   andThen(() => {
-    const listElementsLength = find('#bootstrapLinkable li').length;
-    const listAnchorElementsLength = find('#bootstrapLinkable li a').length;
+    const listElementsLength = find('#linkable li').length;
+    const listAnchorElementsLength = find('#linkable li a').length;
     assert.equal(currentRouteName(), 'foo.bar.baz.index', 'correct current route name');
     assert.equal(listElementsLength, 3, 'returns the correct number of list elements');
     assert.equal(listAnchorElementsLength, 2, 'returns the correct number of list anchor elements');
-  });
-});
-
-test('bread-crumbs component outputs the right class', function(assert) {
-  assert.expect(3);
-  visit('/foo');
-
-  andThen(() => {
-    const foundationList = find('ul#foundationLinkable');
-    const bootstrapList = find('ol#bootstrapLinkable');
-    const hasCorrectFoundationClass = foundationList.hasClass('breadcrumbs');
-    const hasCorrectBootstrapClass = bootstrapList.hasClass('breadcrumb');
-    assert.equal(currentRouteName(), 'foo.index', 'correct current route name');
-    assert.ok(hasCorrectFoundationClass, 'returns the correct Foundation class');
-    assert.ok(hasCorrectBootstrapClass, 'returns the correct Bootstrap class');
   });
 });
 
@@ -147,8 +132,8 @@ test('routes with no breadcrumb should render with their capitalized inferred na
   visit('/dessert/cookie');
 
   andThen(() => {
-    const allListItems = find('ol#bootstrapLinkable li').text();
-    const allLinkItems = find('ol#bootstrapLinkable li a').text();
+    const allListItems = find('ol#linkable li').text();
+    const allLinkItems = find('ol#linkable li a').text();
 
     const hasDessertInallList = allListItems.indexOf('Dessert') >= 0;
     const hasCookieTextInallList = allListItems.indexOf('Cookie') >= 0;
@@ -168,10 +153,10 @@ test('absence of reverse option renders breadcrumb right to left', function(asse
   visit('/foo/bar/baz');
 
   andThen(() => {
-    const numberOfRenderedBreadCrumbs = find('#bootstrapLinkable li').length;
+    const numberOfRenderedBreadCrumbs = find('#linkable li').length;
     assert.equal(numberOfRenderedBreadCrumbs, 3, 'renders the correct number of breadcrumbs');
     assert.deepEqual(
-      Ember.$('#bootstrapLinkable li').map((idx, item) => item.innerText.trim()).toArray(),
+      Ember.$('#linkable li').map((idx, item) => item.innerText.trim()).toArray(),
       ['I am Foo Index', 'I am Bar', 'I am Baz']);
   });
 });
@@ -181,10 +166,10 @@ test('reverse option = TRUE renders breadcrumb from left to right', function(ass
   visit('/foo/bar/baz');
 
   andThen(() => {
-    const numberOfRenderedBreadCrumbs = find('#reverseBootstrapLinkable li').length;
+    const numberOfRenderedBreadCrumbs = find('#reverseLinkable li').length;
     assert.equal(numberOfRenderedBreadCrumbs, 3, 'renders the correct number of breadcrumbs');
     assert.deepEqual(
-      Ember.$('#reverseBootstrapLinkable li').map((idx, item) => item.innerText.trim()).toArray(),
+      Ember.$('#reverseLinkable li').map((idx, item) => item.innerText.trim()).toArray(),
       ['I am Baz', 'I am Bar', 'I am Foo Index']);
   });
 });
@@ -220,16 +205,16 @@ test('bread-crumbs change when the route is changed', function(assert) {
   visit('/foo/bar/baz');
 
   andThen(() => {
-    const lastCrumbText = find('#bootstrapLinkable li:last-child a').text().trim();
+    const lastCrumbText = find('#linkable li:last-child a').text().trim();
 
     assert.equal(currentRouteName(), 'foo.bar.baz.index', 'correct current route name');
     assert.equal(lastCrumbText, 'I am Baz', 'renders the correct last breadcrumb');
   });
 
-  click('#bootstrapLinkable li:first-child a');
+  click('#linkable li:first-child a');
 
   andThen(() => {
-    const lastCrumbText = find('#bootstrapLinkable li:last-child a').text().trim();
+    const lastCrumbText = find('#linkable li:last-child a').text().trim();
 
     assert.equal(currentRouteName(), 'foo.index', 'correct current route name (after transition)');
     assert.equal(lastCrumbText, 'I am Foo Index', 'renders the correct last breadcrumb (after transition)');
@@ -242,13 +227,13 @@ test('bread-crumbs component updates when dynamic segments change', function(ass
 
   andThen(() => {
     assert.equal(currentRouteName(), 'foo.bar.baz.show-with-params', 'correct current route name');
-    assert.equal(Ember.$('#bootstrapLinkable li:last-child')[0].innerText.trim(), 'Derek Zoolander', 'crumb is based on dynamic segment');
+    assert.equal(Ember.$('#linkable li:last-child')[0].innerText.trim(), 'Derek Zoolander', 'crumb is based on dynamic segment');
   });
 
   click('#hansel');
 
   andThen(() => {
     assert.equal(currentRouteName(), 'foo.bar.baz.show-with-params', 'correct current route name');
-    assert.equal(Ember.$('#bootstrapLinkable li:last-child')[0].innerText.trim(), 'Hansel McDonald', 'crumb is based on dynamic segment');
+    assert.equal(Ember.$('#linkable li:last-child')[0].innerText.trim(), 'Hansel McDonald', 'crumb is based on dynamic segment');
   });
 });

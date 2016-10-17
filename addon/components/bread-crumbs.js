@@ -23,7 +23,6 @@ export default Component.extend({
   tagName: 'ol',
   linkable: true,
   reverse: false,
-  classNameBindings: ['breadCrumbClass'],
   hasBlock: bool('template').readOnly(),
   currentUrl: readOnly('applicationRoute.router.url'),
   currentRouteName: readOnly('applicationRoute.controller.currentRouteName'),
@@ -39,20 +38,6 @@ export default Component.extend({
       const crumbs = this._lookupBreadCrumb(routeNames, filteredRouteNames);
 
       return get(this, 'reverse') ? crumbs.reverse() : crumbs;
-    }
-  }).readOnly(),
-
-  breadCrumbClass: computed('outputStyle', {
-    get() {
-      let className = 'breadcrumb';
-      const outputStyle = getWithDefault(this, 'outputStyle', '');
-      const lowerCaseOutputStyle = outputStyle.toLowerCase();
-
-      if (lowerCaseOutputStyle === 'foundation') {
-        className = 'breadcrumbs';
-      }
-
-      return className;
     }
   }).readOnly(),
 
