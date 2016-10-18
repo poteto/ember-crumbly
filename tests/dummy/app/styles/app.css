@@ -873,56 +873,6 @@ a.list-group-item-danger.active:focus {
   position: fixed;
 }
 
-/* foundation */
-.breadcrumbs {
-  border-style: solid;
-  border-width: 1px;
-  display: block;
-  list-style: none;
-  margin-left: 0;
-  overflow: hidden;
-  padding: 0.5625rem 0.875rem 0.5625rem;
-  background-color: whitesmoke;
-  border-color: #dddddd;
-  border-radius: 3px; }
-  .breadcrumbs > * {
-    color: #2ba6cb;
-    float: left;
-    font-size: 0.6875rem;
-    line-height: 0.6875rem;
-    margin: 0;
-    text-transform: uppercase; }
-    .breadcrumbs > *:hover a, .breadcrumbs > *:focus a {
-      text-decoration: underline; }
-    .breadcrumbs > * a {
-      color: #2ba6cb; }
-    .breadcrumbs > *.current {
-      color: #333333;
-      cursor: default; }
-      .breadcrumbs > *.current a {
-        color: #333333;
-        cursor: default; }
-      .breadcrumbs > *.current:hover, .breadcrumbs > *.current:hover a, .breadcrumbs > *.current:focus, .breadcrumbs > *.current:focus a {
-        text-decoration: none; }
-    .breadcrumbs > *.unavailable {
-      color: #999999; }
-      .breadcrumbs > *.unavailable a {
-        color: #999999; }
-      .breadcrumbs > *.unavailable:hover, .breadcrumbs > *.unavailable:hover a, .breadcrumbs > *.unavailable:focus,
-      .breadcrumbs > *.unavailable a:focus {
-        color: #999999;
-        cursor: not-allowed;
-        text-decoration: none; }
-    .breadcrumbs > *:before {
-      color: #AAAAAA;
-      content: "/";
-      margin: 0 0.75rem;
-      position: relative;
-      top: 1px; }
-    .breadcrumbs > *:first-child:before {
-      content: " ";
-      margin: 0; }
-
 /* Accessibility - hides the forward slash */
 [aria-label="breadcrumbs"] [aria-hidden="true"]:after {
   content: "/"; }

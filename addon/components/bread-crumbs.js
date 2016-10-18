@@ -6,6 +6,7 @@ const {
   get,
   Component,
   computed,
+  deprecate,
   getWithDefault,
   assert,
   typeOf,
@@ -23,7 +24,7 @@ export default Component.extend({
   tagName: 'ol',
   linkable: true,
   reverse: false,
-  classNameBindings: ['breadCrumbClass'],
+  classNameBindings: ['outputStyle', 'breadCrumbClass'],
   hasBlock: bool('template').readOnly(),
   currentUrl: readOnly('applicationRoute.router.url'),
   currentRouteName: readOnly('applicationRoute.controller.currentRouteName'),
@@ -42,19 +43,18 @@ export default Component.extend({
     }
   }).readOnly(),
 
-  breadCrumbClass: computed('outputStyle', {
+  outputStyle: computed({
     get() {
-      let className = 'breadcrumb';
-      const outputStyle = getWithDefault(this, 'outputStyle', '');
-      const lowerCaseOutputStyle = outputStyle.toLowerCase();
-
-      if (lowerCaseOutputStyle === 'foundation') {
-        className = 'breadcrumbs';
+      return 'breadcrumb';
+    },
+    set(_, v) {
+      deprecate('outputStyle option will be deprecated in the next major release', false);
+      if (v.toLowerCase() === 'foundation') {
+        return 'breadcrumbs';
       }
-
-      return className;
+      return 'breadcrumb';
     }
-  }).readOnly(),
+  }),
 
   _guessRoutePath(routeNames, name, index) {
     const routes = routeNames.slice(0, index + 1);
