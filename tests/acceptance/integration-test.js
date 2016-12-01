@@ -138,7 +138,7 @@ test('bread-crumbs component accepts a block', function(assert) {
   andThen(() => {
     const listItemsText = find('#customBlock li span').text();
     assert.equal(currentRouteName(), 'animal.quadruped.cow.show', 'correct current route name');
-    assert.equal(listItemsText, 'Animals at the ZooCowsMary (5 years old)', 'returns the right text');
+    assert.equal(listItemsText, 'Derek Zoolander\'s Zoo for Animals Who Can\'t Read Good and Want to Do Other Stuff Good TooCowsMary (5 years old)', 'returns the right text');
   });
 });
 
@@ -172,7 +172,7 @@ test('absence of reverse option renders breadcrumb right to left', function(asse
     assert.equal(numberOfRenderedBreadCrumbs, 3, 'renders the correct number of breadcrumbs');
     assert.deepEqual(
       Ember.$('#bootstrapLinkable li').map((idx, item) => item.innerText.trim()).toArray(),
-      ['I am Foo Index', 'I am Bar', 'I am Baz']);
+      ['I am Foo', 'I am Bar', 'I am Baz']);
   });
 });
 
@@ -185,7 +185,7 @@ test('reverse option = TRUE renders breadcrumb from left to right', function(ass
     assert.equal(numberOfRenderedBreadCrumbs, 3, 'renders the correct number of breadcrumbs');
     assert.deepEqual(
       Ember.$('#reverseBootstrapLinkable li').map((idx, item) => item.innerText.trim()).toArray(),
-      ['I am Baz', 'I am Bar', 'I am Foo Index']);
+      ['I am Baz', 'I am Bar', 'I am Foo']);
   });
 });
 
@@ -232,7 +232,7 @@ test('bread-crumbs change when the route is changed', function(assert) {
     const lastCrumbText = find('#bootstrapLinkable li:last-child a').text().trim();
 
     assert.equal(currentRouteName(), 'foo.index', 'correct current route name (after transition)');
-    assert.equal(lastCrumbText, 'I am Foo Index', 'renders the correct last breadcrumb (after transition)');
+    assert.equal(lastCrumbText, 'I am Foo', 'renders the correct last breadcrumb (after transition)');
   });
 });
 
