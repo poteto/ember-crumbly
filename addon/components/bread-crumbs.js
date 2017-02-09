@@ -1,6 +1,5 @@
 import Ember from 'ember';
 import layout from '../templates/components/bread-crumbs';
-import getOwner from 'ember-getowner-polyfill';
 
 const {
   get,
@@ -73,7 +72,7 @@ export default Component.extend({
   },
 
   _lookupRoute(routeName) {
-    return getOwner(this).lookup(`route:${routeName}`);
+    return Ember.getOwner(this).lookup(`route:${routeName}`);
   },
 
   _lookupBreadCrumb(routeNames, filteredRouteNames) {
