@@ -76,14 +76,17 @@ export default Component.extend({
     return getOwner(this).lookup(`route:${routeName}`);
   },
 
-_lookupBreadCrumb(routeNames, filteredRouteNames) {
+  _lookupBreadCrumb(routeNames, filteredRouteNames) {
     const defaultLinkable = get(this, 'linkable');
-    const pathLength = routeNames.length;
+    const pathLength = filteredRouteNames.length;
     const breadCrumbs = emberArray();
 
     filteredRouteNames.map((name, index) => {
       const path = this._guessRoutePath(routeNames, name, index);
       const route = this._lookupRoute(path);
+      const isHead = index === 0;
+      const isTail = index === pathLength - 1;
+
       const crumbLinkable = (index === pathLength - 1) ? false : defaultLinkable;
 
       assert(`[ember-crumbly] \`route:${path}\` was not found`, route);
