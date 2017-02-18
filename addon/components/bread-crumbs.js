@@ -1,11 +1,11 @@
 import Ember from 'ember';
 import layout from '../templates/components/bread-crumbs';
-import computed from 'ember-new-computed';
 import getOwner from 'ember-getowner-polyfill';
 
 const {
   get,
   Component,
+  computed,
   getWithDefault,
   assert,
   typeOf,
@@ -69,27 +69,28 @@ export default Component.extend({
   },
 
   _filterIndexAndLoadingRoutes(routeNames) {
-    return routeNames.filter((name) => !(name === 'index' || name === 'loading') );
+    return routeNames.filter((name) => !(name === 'index' || name === 'loading'));
   },
 
   _lookupRoute(routeName) {
     return getOwner(this).lookup(`route:${routeName}`);
   },
 
-  _lookupBreadCrumb(routeNames, filteredRouteNames) {
-    let defaultLinkable = get(this, 'linkable');
-    let pathLength = routeNames.length;
-    let breadCrumbs = emberArray();
+_lookupBreadCrumb(routeNames, filteredRouteNames) {
+    const defaultLinkable = get(this, 'linkable');
+    const pathLength = routeNames.length;
+    const breadCrumbs = emberArray();
 
     filteredRouteNames.map((name, index) => {
-      let path = this._guessRoutePath(routeNames, name, index);
-      let route = this._lookupRoute(path);
-      let crumbLinkable = (index === pathLength - 1) ? false : defaultLinkable;
+      const path = this._guessRoutePath(routeNames, name, index);
+      const route = this._lookupRoute(path);
+      const crumbLinkable = (index === pathLength - 1) ? false : defaultLinkable;
 
       assert(`[ember-crumbly] \`route:${path}\` was not found`, route);
 
-      let multipleBreadCrumbs = route.get('multipleBreadCrumbs');
+      const multipleBreadCrumbs = route.get('multipleBreadCrumbs');
 
+      // Look for multiple breadcrumbs and add them to the breadCrumbs array
       if (multipleBreadCrumbs) {
         multipleBreadCrumbs.forEach((breadCrumb) => {
           breadCrumbs.pushObject(breadCrumb);
@@ -104,6 +105,8 @@ export default Component.extend({
         } else {
           setProperties(breadCrumb, {
             path,
+            isHead,
+            isTail,
             linkable: breadCrumb.hasOwnProperty('linkable') ? breadCrumb.linkable : crumbLinkable
           });
         }
