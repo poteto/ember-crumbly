@@ -32,7 +32,7 @@ export default Component.extend({
     get() {
       const currentRouteName = getWithDefault(this, 'currentRouteName', false);
 
-      assert('[ember-crumbly] Could not find a curent route', currentRouteName);
+      assert('[ember-crumbly] Could not find a current route', currentRouteName);
 
       const routeNames = currentRouteName.split('.');
       const filteredRouteNames = this._filterIndexAndLoadingRoutes(routeNames);
