@@ -60,9 +60,7 @@ export default Component.extend({
     const routes = routeNames.slice(0, index + 1);
 
     if (routes.length === 1) {
-      let path = `${name}.index`;
-
-      return (this._lookupRoute(path)) ? path : name;
+      return name;
     }
 
     return routes.join('.');
