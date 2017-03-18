@@ -60,13 +60,9 @@ export default Component.extend({
     const routes = routeNames.slice(0, index + 1);
 
     if (routes.length === 1) {
-      if (routeNames.length === 2 && routeNames[1] === 'index') {
-        let path = `${name}.index`;
-        
-        return (this._lookupRoute(path)).get('breadCrumb') ? path : name;
-      }
-      
-      return name;
+      let path = `${name}.index`;
+
+      return (this._lookupRoute(path)) ? path : name;
     }
 
     return routes.join('.');
