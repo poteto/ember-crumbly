@@ -4,10 +4,11 @@ import moduleForAcceptance from '../helpers/module-for-acceptance';
 import { lookupComponent } from '../helpers/lookup';
 
 let componentInstance;
+let applicationInstance;
 
 moduleForAcceptance('Acceptance | ember-crumbly integration test', {
   beforeEach() {
-    componentInstance = lookupComponent(this.application, 'bread-crumbs');
+    applicationInstance = this.application;
   },
 
   afterEach() {
@@ -20,6 +21,7 @@ test('routeHierarchy returns the correct number of routes', function(assert) {
   visit('/foo/bar/baz');
 
   andThen(() => {
+    componentInstance = lookupComponent(applicationInstance, 'bread-crumbs');
     const routeHierarchy = componentInstance.get('routeHierarchy');
     const numberOfRenderedBreadCrumbs = find('#bootstrapLinkable li').length;
     assert.equal(currentRouteName(), 'foo.bar.baz.index', 'correct current route name');
@@ -33,6 +35,7 @@ test('routes that opt-out are not shown', function(assert) {
   visit('/foo/bar/baz/hidden');
 
   andThen(() => {
+    componentInstance = lookupComponent(applicationInstance, 'bread-crumbs');
     const routeHierarchy = componentInstance.get('routeHierarchy');
     const numberOfRenderedBreadCrumbs = find('#foundationLinkable li').length;
     assert.equal(currentRouteName(), 'foo.bar.baz.hidden', 'correct current route name');
@@ -47,6 +50,7 @@ test('top-level flat routes render correctly', function(assert) {
 
   andThen(() => {
     const $breadCrumbs = find('#foundationLinkable li');
+    componentInstance = lookupComponent(applicationInstance, 'bread-crumbs');
     const routeHierarchy = componentInstance.get('routeHierarchy');
     const numberOfRenderBreadCrumbs = $breadCrumbs.length;
     assert.equal(currentRouteName(), 'about', 'correct current route name');
@@ -61,6 +65,7 @@ test('routes can set dynamic breadcrumb props', function(assert) {
   visit('/foo/bar/baz/show');
 
   andThen(() => {
+    componentInstance = lookupComponent(applicationInstance, 'bread-crumbs');
     const routeHierarchy = componentInstance.get('routeHierarchy');
     const routeTitles = routeHierarchy.map((route) => route.title);
     const routeLooks = routeHierarchy.map((route) => route.look);
@@ -81,6 +86,7 @@ test('breadcrumb data includes isTail and isHead', function(assert) {
   visit('/foo/bar/baz/show');
 
   andThen(() => {
+    componentInstance = lookupComponent(applicationInstance, 'bread-crumbs');
     const routeHierarchy = componentInstance.get('routeHierarchy');
 
     assert.equal(routeHierarchy[0].isHead, true, 'first route is head');
@@ -95,6 +101,7 @@ test('first route is tail and head when on root', function(assert) {
   visit('/foo');
 
   andThen(() => {
+    componentInstance = lookupComponent(applicationInstance, 'bread-crumbs');
     const routeHierarchy = componentInstance.get('routeHierarchy');
 
     assert.equal(routeHierarchy.length, 1, 'There is 1 route');
