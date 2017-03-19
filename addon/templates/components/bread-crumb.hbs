@@ -2,6 +2,8 @@
   {{#link-to route.path class=linkClass}}
     {{#if hasBlock}}
       {{yield this route}}
+    {{else if i18n}}
+      {{t route.i18nTitle}}  
     {{else}}
       {{route.title}}
     {{/if}}
@@ -9,6 +11,8 @@
 {{else}}
   {{#if hasBlock}}
     {{yield this route}}
+  {{else if i18n}}
+    {{t route.i18nTitle}}  
   {{else}}
     {{route.title}}
   {{/if}}

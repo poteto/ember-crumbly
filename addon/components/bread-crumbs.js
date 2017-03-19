@@ -11,7 +11,7 @@ const {
   typeOf,
   setProperties,
   A: emberArray,
-  String: { classify }
+  String: { capitalize, dasherize }
 } = Ember;
 const {
   bool,
@@ -23,6 +23,7 @@ export default Component.extend({
   tagName: 'ol',
   linkable: true,
   reverse: false,
+  i18n: false,
   classNameBindings: ['breadCrumbClass'],
   hasBlock: bool('template').readOnly(),
   currentUrl: readOnly('applicationRoute.router.url'),
@@ -90,7 +91,8 @@ export default Component.extend({
       assert(`[ember-crumbly] \`route:${path}\` was not found`, route);
 
       let breadCrumb = getWithDefault(route, 'breadCrumb', {
-        title: classify(name)
+        title: capitalize(name),
+        i18nTitle: dasherize(name)
       });
 
       if (typeOf(breadCrumb) === 'null') {
