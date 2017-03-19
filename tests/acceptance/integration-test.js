@@ -259,3 +259,18 @@ test('bread-crumbs component updates when dynamic segments change', function(ass
     assert.equal(Ember.$('#bootstrapLinkable li:last-child')[0].innerText.trim(), 'Hansel McDonald', 'crumb is based on dynamic segment');
   });
 });
+
+test('bread-crumbs change when the route is changed', function(assert) {
+  assert.expect(2);
+  visit('/foo/bar/baz?errorTest=true');
+
+  andThen(() => {
+    assert.equal(find('#bootstrapLinkable li a').length, 2, '2 out of the 3 bread-crumbs are links');
+  });
+
+  click('.error-link');
+
+  andThen(() => {
+    assert.equal(find('#bootstrapLinkable li a').length, 3, '2 out of the 4 bread-crumbs are links, there should be 3 links');
+  });
+});

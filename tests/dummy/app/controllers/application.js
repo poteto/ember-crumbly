@@ -5,4 +5,6 @@ const {
 } = Ember;
 
 export default Controller.extend({
+  queryParams: ['errorTest'],
+  errorTest: false
 });
