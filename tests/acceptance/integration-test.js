@@ -236,7 +236,7 @@ test('bread-crumbs change when the route is changed', function(assert) {
   click('#bootstrapLinkable li:first-child a');
 
   andThen(() => {
-    const lastCrumbText = find('#bootstrapLinkable li:last-child a').text().trim();
+    const lastCrumbText = find('#bootstrapLinkable li:last-child').text().trim();
 
     assert.equal(currentRouteName(), 'foo.index', 'correct current route name (after transition)');
     assert.equal(lastCrumbText, 'I am Foo Index', 'renders the correct last breadcrumb (after transition)');
@@ -257,5 +257,28 @@ test('bread-crumbs component updates when dynamic segments change', function(ass
   andThen(() => {
     assert.equal(currentRouteName(), 'foo.bar.baz.show-with-params', 'correct current route name');
     assert.equal(Ember.$('#bootstrapLinkable li:last-child')[0].innerText.trim(), 'Hansel McDonald', 'crumb is based on dynamic segment');
+  });
+});
+
+test('parent route becomes linkable when navigating to child', function(assert) {
+  assert.expect(4);
+  visit('/foo/bar');
+
+  andThen(() => {
+    const numberOfRenderedBreadCrumbs = find('#bootstrapLinkable li').length;
+    const numberOfRenderedLinkBreadCrumbs = find('#bootstrapLinkable li a').length;
+
+    assert.equal(numberOfRenderedBreadCrumbs, 2, 'renders correct number of bread crumbs');
+    assert.equal(numberOfRenderedLinkBreadCrumbs, 1, 'renders correct number of links');
+  });
+
+  visit('/foo/bar/baz');
+
+  andThen(() => {
+    const numberOfRenderedBreadCrumbs = find('#bootstrapLinkable li').length;
+    const numberOfRenderedLinkBreadCrumbs = find('#bootstrapLinkable li a').length;
+
+    assert.equal(numberOfRenderedBreadCrumbs, 3, 'renders correct number of bread crumbs');
+    assert.equal(numberOfRenderedLinkBreadCrumbs, 2, 'renders correct number of links');
   });
 });

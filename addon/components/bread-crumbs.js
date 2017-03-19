@@ -6,6 +6,7 @@ const {
   get,
   Component,
   computed,
+  copy,
   getWithDefault,
   assert,
   typeOf,
@@ -89,9 +90,9 @@ export default Component.extend({
 
       assert(`[ember-crumbly] \`route:${path}\` was not found`, route);
 
-      let breadCrumb = getWithDefault(route, 'breadCrumb', {
+      let breadCrumb = copy(getWithDefault(route, 'breadCrumb', {
         title: classify(name)
-      });
+      }));
 
       if (typeOf(breadCrumb) === 'null') {
         return;
