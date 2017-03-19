@@ -1,6 +1,6 @@
 {{#each routeHierarchy as |route|}}
   {{#if hasBlock}}
-    {{yield this route}}
+    {{yield this route routeHierarchy}}
   {{else}}
     {{bread-crumb route=route breadCrumbs=this}}
   {{/if}}
