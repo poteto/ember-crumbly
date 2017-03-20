@@ -9,6 +9,8 @@ const {
   copy,
   getWithDefault,
   assert,
+  deprecate,
+  isEmpty,
   typeOf,
   setProperties,
   A: emberArray,
@@ -47,6 +49,9 @@ export default Component.extend({
     get() {
       let className = 'breadcrumb';
       const outputStyle = getWithDefault(this, 'outputStyle', '');
+      if (isEmpty(outputStyle)) {
+        deprecate('outputStyle option will be deprecated in the next major release', false);
+      }
       const lowerCaseOutputStyle = outputStyle.toLowerCase();
 
       if (lowerCaseOutputStyle === 'foundation') {
