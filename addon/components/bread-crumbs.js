@@ -10,7 +10,7 @@ const {
   getWithDefault,
   assert,
   deprecate,
-  isEmpty,
+  isPresent,
   typeOf,
   setProperties,
   A: emberArray,
@@ -49,8 +49,8 @@ export default Component.extend({
     get() {
       let className = 'breadcrumb';
       const outputStyle = getWithDefault(this, 'outputStyle', '');
-      if (isEmpty(outputStyle)) {
-        deprecate('outputStyle option will be deprecated in the next major release', false);
+      if (isPresent(outputStyle)) {
+        deprecate('outputStyle option will be deprecated in the next major release', false, { id: 'ember-crumbly.outputStyle', until: '2.0.0' });
       }
       const lowerCaseOutputStyle = outputStyle.toLowerCase();
 
