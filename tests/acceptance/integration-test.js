@@ -310,3 +310,18 @@ test('uses index for last route only', function(assert) {
     assert.equal(Ember.$('#bootstrapLinkable li:nth(3)').text().trim(), 'Derek Zoolander');
   });
 });
+
+test('uses path from breadCrumb if present', function(assert) {
+  assert.expect(2);
+  visit('/bar/baz');
+
+  andThen(() => {
+    assert.equal(currentRouteName(), 'bar.baz', 'correct current route name');
+  });
+
+  click('#bootstrapLinkable li:first-child a');
+
+  andThen(() => {
+    assert.equal(currentRouteName(), 'foo.index', 'correct current route name');
+  });
+});

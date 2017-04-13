@@ -16,6 +16,9 @@ Router.map(function() {
       });
     });
   });
+  this.route('bar', function() {
+    this.route('baz');
+  });
 
   this.route('animal', function() {
     this.route('quadruped', function() {

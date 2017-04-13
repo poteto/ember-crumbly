@@ -30,7 +30,8 @@ For example, the route `foo/bar/baz/1` will generate the following breadcrumb: `
 
 export default Ember.Route.extend({
   breadCrumb: {
-    title: 'Animals'
+    title: 'Animals',
+    path: 'foo'
   }
 });
 ```
