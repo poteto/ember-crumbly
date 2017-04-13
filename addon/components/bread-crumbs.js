@@ -63,19 +63,30 @@ export default Component.extend({
   }).readOnly(),
 
   _guessRoutePath(routeNames, name, index) {
+    const lastIndex = routeNames.length - 1;
     const routes = routeNames.slice(0, index + 1);
 
-    if (routes.length === 1) {
-      let path = `${name}.index`;
+    let path = routes.join('.');
 
-      return (this._lookupRoute(path)) ? path : name;
+    if (routes.length === lastIndex && routeNames[lastIndex] === 'index' && name !== 'index') {
+      let fullPath = `${path}.index`;
+
+      if (this._lookupRoute(fullPath)) {
+        return fullPath;
+      }
     }
 
-    return routes.join('.');
+    return path;
   },
 
   _filterIndexAndLoadingRoutes(routeNames) {
-    return routeNames.filter((name) => !(name === 'index' || name === 'loading'));
+    const filteredRouteNames = routeNames.filter((name) => (name !== 'loading'));
+
+    while (filteredRouteNames[filteredRouteNames.length - 1] === 'index') {
+      filteredRouteNames.pop();
+    }
+
+    return filteredRouteNames;
   },
 
   _lookupRoute(routeName) {

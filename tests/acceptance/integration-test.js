@@ -145,7 +145,7 @@ test('bread-crumbs component accepts a block', function(assert) {
   andThen(() => {
     const listItemsText = find('#customBlock li span').text();
     assert.equal(currentRouteName(), 'animal.quadruped.cow.show', 'correct current route name');
-    assert.equal(listItemsText, 'Animals at the ZooCowsMary (5 years old)', 'returns the right text');
+    assert.equal(listItemsText, 'Derek Zoolander\'s Zoo for Animals Who Can\'t Read Good and Want to Do Other Stuff Good TooCowsMary (5 years old)', 'returns the right text');
   });
 });
 
@@ -179,7 +179,7 @@ test('absence of reverse option renders breadcrumb right to left', function(asse
     assert.equal(numberOfRenderedBreadCrumbs, 3, 'renders the correct number of breadcrumbs');
     assert.deepEqual(
       Ember.$('#bootstrapLinkable li').map((idx, item) => item.innerText.trim()).toArray(),
-      ['I am Foo Index', 'I am Bar', 'I am Baz']);
+      ['I am Foo', 'I am Bar', 'I am Baz Index']);
   });
 });
 
@@ -192,7 +192,7 @@ test('reverse option = TRUE renders breadcrumb from left to right', function(ass
     assert.equal(numberOfRenderedBreadCrumbs, 3, 'renders the correct number of breadcrumbs');
     assert.deepEqual(
       Ember.$('#reverseBootstrapLinkable li').map((idx, item) => item.innerText.trim()).toArray(),
-      ['I am Baz', 'I am Bar', 'I am Foo Index']);
+      ['I am Baz Index', 'I am Bar', 'I am Foo']);
   });
 });
 
@@ -230,7 +230,7 @@ test('bread-crumbs change when the route is changed', function(assert) {
     const lastCrumbText = find('#bootstrapLinkable li:last-child').text().trim();
 
     assert.equal(currentRouteName(), 'foo.bar.baz.index', 'correct current route name');
-    assert.equal(lastCrumbText, 'I am Baz', 'renders the correct last breadcrumb');
+    assert.equal(lastCrumbText, 'I am Baz Index', 'renders the correct last breadcrumb');
   });
 
   click('#bootstrapLinkable li:first-child a');
@@ -280,5 +280,33 @@ test('parent route becomes linkable when navigating to child', function(assert) 
 
     assert.equal(numberOfRenderedBreadCrumbs, 3, 'renders correct number of bread crumbs');
     assert.equal(numberOfRenderedLinkBreadCrumbs, 2, 'renders correct number of links');
+  });
+});
+
+test('uses index for last route only', function(assert) {
+  assert.expect(10);
+  visit('/foo');
+
+  andThen(() => {
+    assert.equal(currentRouteName(), 'foo.index', 'correct current route name');
+    assert.equal(Ember.$('#bootstrapLinkable li').text().trim(), 'I am Foo Index');
+  });
+
+  visit('/foo/bar');
+
+  andThen(() => {
+    assert.equal(currentRouteName(), 'foo.bar.index', 'correct current route name');
+    assert.equal(Ember.$('#bootstrapLinkable li:nth(0)').text().trim(), 'I am Foo');
+    assert.equal(Ember.$('#bootstrapLinkable li:nth(1)').text().trim(), 'I am Bar Index');
+  });
+
+  visit('/foo/bar/baz/show');
+
+  andThen(() => {
+    assert.equal(currentRouteName(), 'foo.bar.baz.show', 'correct current route name');
+    assert.equal(Ember.$('#bootstrapLinkable li:nth(0)').text().trim(), 'I am Foo');
+    assert.equal(Ember.$('#bootstrapLinkable li:nth(1)').text().trim(), 'I am Bar');
+    assert.equal(Ember.$('#bootstrapLinkable li:nth(2)').text().trim(), 'I am Baz');
+    assert.equal(Ember.$('#bootstrapLinkable li:nth(3)').text().trim(), 'Derek Zoolander');
   });
 });
