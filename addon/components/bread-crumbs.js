@@ -1,6 +1,5 @@
 import Ember from 'ember';
 import layout from '../templates/components/bread-crumbs';
-import getOwner from 'ember-getowner-polyfill';
 
 const {
   get,
@@ -13,6 +12,7 @@ const {
   isPresent,
   typeOf,
   setProperties,
+  getOwner,
   A: emberArray,
   String: { classify }
 } = Ember;
