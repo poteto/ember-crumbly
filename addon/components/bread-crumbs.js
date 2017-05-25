@@ -3,6 +3,7 @@ import layout from '../templates/components/bread-crumbs';
 
 const {
   get,
+  set,
   Component,
   computed,
   copy,
@@ -13,6 +14,7 @@ const {
   typeOf,
   setProperties,
   getOwner,
+  LinkComponent,
   A: emberArray,
   String: { classify }
 } = Ember;
@@ -26,10 +28,28 @@ export default Component.extend({
   tagName: 'ol',
   linkable: true,
   reverse: false,
+  hasSchema: false,
   classNameBindings: ['breadCrumbClass'],
+  attributeBindings: [],
+  itemscope: true,
+  itemtype: 'http://schema.org/BreadcrumbList',
   hasBlock: bool('template').readOnly(),
   currentUrl: readOnly('applicationRoute.router.url'),
   currentRouteName: readOnly('applicationRoute.controller.currentRouteName'),
+
+  init() {
+    this._super(...arguments);
+
+    LinkComponent.reopen({
+      attributeBindings: ['itemscope', 'itemtype', 'itemprop']
+    });
+
+    if (get(this, 'hasSchema')) {
+      const newAttributeBindings = ['itemscope', 'itemtype'];
+
+      set(this, 'attributeBindings', this.attributeBindings.concat(newAttributeBindings));
+    }
+  },
 
   routeHierarchy: computed('currentUrl', 'currentRouteName', 'reverse', {
     get() {
