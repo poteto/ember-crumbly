@@ -12,7 +12,7 @@ const {
   isPresent,
   typeOf,
   setProperties,
-  getOwner,
+  inject,
   A: emberArray,
   String: { classify }
 } = Ember;
@@ -22,6 +22,7 @@ const {
 } = computed;
 
 export default Component.extend({
+  routing: inject.service('-routing'),
   layout,
   tagName: 'ol',
   linkable: true,
@@ -79,7 +80,7 @@ export default Component.extend({
   },
 
   _lookupRoute(routeName) {
-    return getOwner(this).lookup(`route:${routeName}`);
+    return get(this, 'routing.router._routerMicrolib').getHandler(routeName);
   },
 
   _lookupBreadCrumb(routeNames, filteredRouteNames) {

@@ -33,7 +33,7 @@ Router.map(function() {
     this.route('cookie');
   });
 
-  this.route('about');
+  this.route('about', { path: 'about' });
 });
 
 export default Router;
