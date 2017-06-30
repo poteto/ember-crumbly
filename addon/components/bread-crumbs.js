@@ -28,8 +28,9 @@ export default Component.extend({
   reverse: false,
   classNameBindings: ['breadCrumbClass'],
   hasBlock: bool('template').readOnly(),
-  currentUrl: readOnly('routerService.currentURL'),
-  currentRouteName: readOnly('routerService.currentRouteName'),
+  routing: service('-routing'),
+  currentUrl: readOnly('applicationRoute.router.url'),
+  currentRouteName: readOnly('applicationRoute.controller.currentRouteName'),
 
   routeHierarchy: computed('currentUrl', 'currentRouteName', 'reverse', {
     get() {
@@ -80,7 +81,19 @@ export default Component.extend({
   },
 
   _lookupRoute(routeName) {
-    return getOwner(this).lookup(`route:${routeName}`);
+    let routeOwner = getOwner(this);
+    let engineInfo = get(this, 'routing.router')._engineInfoByRoute[routeName];
+
+    if (engineInfo) {
+      let engineInstance = get(this, 'routing.router')._getEngineInstance(engineInfo);
+
+      routeOwner = engineInstance;
+      routeName = engineInfo.localFullName;
+    }
+
+    let fullRouteName = `route:${routeName}`;
+
+    return routeOwner.lookup(fullRouteName);
   },
 
   _lookupBreadCrumb(routeNames, filteredRouteNames) {
