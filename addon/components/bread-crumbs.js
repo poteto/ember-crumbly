@@ -82,7 +82,10 @@ export default Component.extend({
 
   _lookupRoute(routeName) {
     let routeOwner = getOwner(this);
-    let engineInfo = get(this, 'routing.router')._engineInfoByRoute[routeName];
+    let engineInfo;
+    if (get(this, 'routing.router')._engineInfoByRoute) {
+      engineInfo = get(this, 'routing.router')._engineInfoByRoute[routeName];
+    }
 
     if (engineInfo) {
       let engineInstance = get(this, 'routing.router')._getEngineInstance(engineInfo);
