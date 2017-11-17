@@ -85,7 +85,9 @@ export default Component.extend({
   _lookupBreadCrumb(routeNames, filteredRouteNames) {
     const defaultLinkable = get(this, 'linkable');
     const pathLength = filteredRouteNames.length;
-    const breadCrumbs = filteredRouteNames.map((name, index) => {
+    const breadCrumbs = emberArray();
+
+    filteredRouteNames.map((name, index) => {
       let path = this._guessRoutePath(routeNames, name, index);
       const route = this._lookupRoute(path);
       const isHead = index === 0;
@@ -95,26 +97,34 @@ export default Component.extend({
 
       assert(`[ember-crumbly] \`route:${path}\` was not found`, route);
 
-      let breadCrumb = copy(getWithDefault(route, 'breadCrumb', {
-        title: classify(name)
-      }));
+      const multipleBreadCrumbs = route.get('breadCrumbs');
 
-      if (typeOf(breadCrumb) === 'null') {
-        return;
+      if (multipleBreadCrumbs) {
+        multipleBreadCrumbs.forEach((breadCrumb) => {
+          breadCrumbs.pushObject(breadCrumb);
+        });
       } else {
-        if (isPresent(breadCrumb.path)) {
-          path = breadCrumb.path;
+        let breadCrumb = copy(getWithDefault(route, 'breadCrumb', {
+          title: classify(name)
+        }));
+
+        if (typeOf(breadCrumb) === 'null') {
+          return;
+        } else {
+          if (isPresent(breadCrumb.path)) {
+            path = breadCrumb.path;
+          }
+
+          setProperties(breadCrumb, {
+            path,
+            isHead,
+            isTail,
+            linkable: breadCrumb.hasOwnProperty('linkable') ? breadCrumb.linkable : crumbLinkable
+          });
         }
 
-        setProperties(breadCrumb, {
-          path,
-          isHead,
-          isTail,
-          linkable: breadCrumb.hasOwnProperty('linkable') ? breadCrumb.linkable : crumbLinkable
-        });
+        breadCrumbs.pushObject(breadCrumb);
       }
-
-      return breadCrumb;
     });
 
     return emberArray(breadCrumbs.filter((breadCrumb) => typeOf(breadCrumb) !== 'undefined'));
