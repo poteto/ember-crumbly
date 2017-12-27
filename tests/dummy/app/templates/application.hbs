@@ -14,6 +14,10 @@
 {{bread-crumbs id="foundationNotLinkable" tagName="ul" outputStyle="foundation" linkable=false}}
 <hr>
 
+<h2>With BreadcrumbList Schema</h2>
+{{bread-crumbs id="hasSchema" hasSchema=true}}
+<hr>
+
 <h2>Custom block</h2>
 {{#bread-crumbs id="customBlock" as |component route|}}
   {{#bread-crumb route=route breadCrumbs=component}}

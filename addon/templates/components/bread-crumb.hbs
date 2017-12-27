@@ -1,15 +1,31 @@
 {{#if route.linkable}}
-  {{#link-to route.path class=linkClass}}
-    {{#if hasBlock}}
-      {{yield this route}}
-    {{else}}
-      {{route.title}}
-    {{/if}}
+  {{#link-to route.path class=linkClass itemscope=true itemtype="http://schema.org/Thing" itemprop="item"}}
+      {{#if hasBlock}}
+        {{yield this route}}
+      {{else}}
+        {{#if hasSchema}}
+          <span itemprop="name">
+            {{route.title}}
+          </span>
+        {{else}}
+          {{route.title}}
+        {{/if}}
+      {{/if}}
   {{/link-to}}
+  {{#if hasSchema}}
+    <meta itemprop="position" content={{position}}>
+  {{/if}}
 {{else}}
   {{#if hasBlock}}
     {{yield this route}}
   {{else}}
-    {{route.title}}
+    {{#if hasSchema}}
+      <span itemprop="name">
+        {{route.title}}
+      </span>
+      <meta itemprop="position" content={{position}}>
+    {{else}}
+      {{route.title}}
+    {{/if}}
   {{/if}}
 {{/if}}

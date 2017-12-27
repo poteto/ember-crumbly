@@ -297,3 +297,23 @@ test('uses path from breadCrumb if present', function(assert) {
     assert.equal(currentRouteName(), 'foo.index', 'correct current route name');
   });
 });
+
+test('use schema.org BreadcrumbList Schema if present', function(assert) {
+  assert.expect(12);
+  visit('/bar/baz');
+
+  andThen(() => {
+    assert.equal(find('#hasSchema').attr('itemtype'), 'http://schema.org/BreadcrumbList', 'correct itemtype');
+    assert.equal(find('#hasSchema').attr('itemscope'), '', 'has itemscope');
+    assert.equal(find('#hasSchema li:first').attr('itemtype'), 'http://schema.org/ListItem', 'li has itemtype');
+    assert.equal(find('#hasSchema li:first').attr('itemscope'), '', 'li has itemscope');
+    assert.equal(find('#hasSchema li:first').attr('itemprop'), 'itemListElement', 'li has correct itemprop');
+    assert.equal(find('#hasSchema li:first a').attr('itemtype'), 'http://schema.org/Thing', 'li a has correct itemtype');
+    assert.equal(find('#hasSchema li:first a').attr('itemprop'), 'item', 'li a has correct itemprop');
+    assert.equal(find('#hasSchema li:first a').attr('itemscope'), '', 'li a has correct itemscope');
+    assert.equal(find('#hasSchema li:first a span').attr('itemprop'), 'name', 'li a span has correct itemprop');
+    assert.equal(find('#hasSchema li:first > meta').attr('itemprop'), 'position', 'meta tag itemprop should be position');
+    assert.equal(find('#hasSchema li:first > meta').attr('content'), '1', '1st meta tag correct content');
+    assert.equal(find('#hasSchema li:last > meta').attr('content'), '2', '2nd meta tag correct content');
+  });
+});
