@@ -34,6 +34,7 @@ Router.map(function() {
   });
 
   this.route('about');
+  this.route('i18n');
 });
 
 export default Router;
