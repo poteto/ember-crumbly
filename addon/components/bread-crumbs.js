@@ -82,10 +82,15 @@ export default Component.extend({
     return getOwner(this).lookup(`route:${routeName}`);
   },
 
+  _lookupi18n() {
+    return getOwner(this).lookup('service:i18n');
+  },
+
   _lookupBreadCrumb(routeNames, filteredRouteNames) {
     const defaultLinkable = get(this, 'linkable');
     const pathLength = filteredRouteNames.length;
     const breadCrumbs = emberArray();
+    const i18nService = this._lookupi18n();
 
     filteredRouteNames.map((name, index) => {
       let path = this._guessRoutePath(routeNames, name, index);
@@ -105,7 +110,7 @@ export default Component.extend({
         });
       } else {
         let breadCrumb = copy(getWithDefault(route, 'breadCrumb', {
-          title: classify(name)
+
         }));
 
         if (typeOf(breadCrumb) === 'null') {
@@ -115,7 +120,15 @@ export default Component.extend({
             path = breadCrumb.path;
           }
 
+          let title = get(breadCrumb, 'title') || classify(name);
+          let i18nTitle = get(breadCrumb, 'i18nTitle');
+
+          if (i18nTitle && i18nService) {
+            title = i18nService.t(i18nTitle);
+          }
+
           setProperties(breadCrumb, {
+            title,
             path,
             isHead,
             isTail,

@@ -60,6 +60,22 @@ test('top-level flat routes render correctly', function(assert) {
   });
 });
 
+test('i18n is used to translate when provide', function(assert) {
+  assert.expect(4);
+  visit('/i18n');
+
+  andThen(() => {
+    const $breadCrumbs = find('#bootstrapLinkable li');
+    componentInstance = lookupComponent(applicationInstance, 'bread-crumbs');
+    const routeHierarchy = componentInstance.get('routeHierarchy');
+    const numberOfRenderBreadCrumbs = $breadCrumbs.length;
+    assert.equal(currentRouteName(), 'i18n', 'correct current route name');
+    assert.equal(routeHierarchy.length, 1, 'returns correct number of routes');
+    assert.equal(numberOfRenderBreadCrumbs, 1, 'renders the correct number of breadcrumbs');
+    assert.equal($breadCrumbs.first().text().trim(), 'About Derek Zoolander', 'uses i18n to translate');
+  });
+});
+
 test('routes can set dynamic breadcrumb props', function(assert) {
   assert.expect(5);
   visit('/foo/bar/baz/show');
