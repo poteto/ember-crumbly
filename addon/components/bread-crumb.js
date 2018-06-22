@@ -1,10 +1,6 @@
 import Component from '@ember/component';
 import layout from '../templates/components/bread-crumb';
-
-const {
-  oneWay,
-  bool
-} = computed;
+import { oneWay, bool } from '@ember/object/computed';
 
 export default Component.extend({
   layout,
