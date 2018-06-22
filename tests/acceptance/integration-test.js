@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import $ from 'jquery';
 import { test } from 'qunit';
 import moduleForAcceptance from '../helpers/module-for-acceptance';
 import { lookupComponent } from '../helpers/lookup';
@@ -178,7 +178,7 @@ test('absence of reverse option renders breadcrumb right to left', function(asse
     const numberOfRenderedBreadCrumbs = find('#bootstrapLinkable li').length;
     assert.equal(numberOfRenderedBreadCrumbs, 3, 'renders the correct number of breadcrumbs');
     assert.deepEqual(
-      Ember.$('#bootstrapLinkable li').map((idx, item) => item.innerText.trim()).toArray(),
+      $('#bootstrapLinkable li').map((idx, item) => item.innerText.trim()).toArray(),
       ['I am Foo Index', 'I am Bar', 'I am Baz']);
   });
 });
@@ -191,7 +191,7 @@ test('reverse option = TRUE renders breadcrumb from left to right', function(ass
     const numberOfRenderedBreadCrumbs = find('#reverseBootstrapLinkable li').length;
     assert.equal(numberOfRenderedBreadCrumbs, 3, 'renders the correct number of breadcrumbs');
     assert.deepEqual(
-      Ember.$('#reverseBootstrapLinkable li').map((idx, item) => item.innerText.trim()).toArray(),
+      $('#reverseBootstrapLinkable li').map((idx, item) => item.innerText.trim()).toArray(),
       ['I am Baz', 'I am Bar', 'I am Foo Index']);
   });
 });
@@ -249,14 +249,14 @@ test('bread-crumbs component updates when dynamic segments change', function(ass
 
   andThen(() => {
     assert.equal(currentRouteName(), 'foo.bar.baz.show-with-params', 'correct current route name');
-    assert.equal(Ember.$('#bootstrapLinkable li:last-child')[0].innerText.trim(), 'Derek Zoolander', 'crumb is based on dynamic segment');
+    assert.equal($('#bootstrapLinkable li:last-child')[0].innerText.trim(), 'Derek Zoolander', 'crumb is based on dynamic segment');
   });
 
   click('#hansel');
 
   andThen(() => {
     assert.equal(currentRouteName(), 'foo.bar.baz.show-with-params', 'correct current route name');
-    assert.equal(Ember.$('#bootstrapLinkable li:last-child')[0].innerText.trim(), 'Hansel McDonald', 'crumb is based on dynamic segment');
+    assert.equal($('#bootstrapLinkable li:last-child')[0].innerText.trim(), 'Hansel McDonald', 'crumb is based on dynamic segment');
   });
 });
 

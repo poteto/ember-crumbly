@@ -1,10 +1,5 @@
-import Ember from 'ember';
-
-const {
-  Route,
-  get,
-  set
-} = Ember;
+import Route from '@ember/routing/route';
+import { set, get } from '@ember/object';
 
 export default Route.extend({
   breadCrumb: {},

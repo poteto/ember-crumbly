@@ -1,4 +1,5 @@
-import Ember from 'ember';
+import Application from '@ember/application';
+import { run } from '@ember/runloop';
 import { initialize } from '../../../initializers/crumbly';
 import { module, test } from 'qunit';
 
@@ -6,8 +7,8 @@ let container, application;
 
 module('Unit | Initializer | crumbly', {
   beforeEach() {
-    Ember.run(() => {
-      application = Ember.Application.create();
+    run(() => {
+      application = Application.create();
       container = application.__container__;
       application.deferReadiness();
     });
