@@ -5,20 +5,20 @@ import { module, test } from 'qunit';
 
 let container, application;
 
-module('Unit | Initializer | crumbly', {
-  beforeEach() {
+module('Unit | Initializer | crumbly', function(hooks) {
+  hooks.beforeEach(function() {
     run(() => {
       application = Application.create();
       container = application.__container__;
       application.deferReadiness();
     });
-  }
-});
+  });
 
-// Replace this with your real tests.
-test('it works', function(assert) {
-  initialize(container, application);
+  // Replace this with your real tests.
+  test('it works', function(assert) {
+    initialize(container, application);
 
-  // you would normally confirm the results of the initializer here
-  assert.ok(true);
+    // you would normally confirm the results of the initializer here
+    assert.ok(true);
+  });
 });
