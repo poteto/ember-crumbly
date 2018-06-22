@@ -238,24 +238,18 @@ In certain scenarios, you might want to reverse the order of the breadcrumb (i.e
 
 Will generate the following breadcrumb: `Mary < Cows < Quadrupeds < Animals`. Note that you have to style this yourself (the Component is not responsible for generating the separators).
 
-## Installation
+### Installation
 
-* `git clone` this repository
-* `npm install`
-* `bower install`
+* `git clone <repository-url>`
+* `cd my-addon`
+* `yarn`
 
-## Running
+### Linting
 
-* `ember server`
-* Visit your app at http://localhost:4200.
+* `yarn lint:js`
+* `yarn lint:js -- --fix`
 
-## Running Tests
-
-* `ember test`
-* `ember test --server`
-
-## Building
-
-* `ember build`
-
-For more information on using ember-cli, visit [http://www.ember-cli.com/](http://www.ember-cli.com/).
+### Running tests
+* `ember test` – Runs the test suite on the current Ember version
+* `ember test --server` – Runs the test suite in "watch mode"
+* `ember try:each` – Runs the test suite against multiple Ember versions
