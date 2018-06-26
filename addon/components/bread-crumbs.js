@@ -9,6 +9,7 @@ const {
   getWithDefault,
   assert,
   deprecate,
+  inject,
   isPresent,
   typeOf,
   setProperties,
@@ -22,14 +23,15 @@ const {
 } = computed;
 
 export default Component.extend({
+  routerService: inject.service('router'),
   layout,
   tagName: 'ol',
   linkable: true,
   reverse: false,
   classNameBindings: ['breadCrumbClass'],
   hasBlock: bool('template').readOnly(),
-  currentUrl: readOnly('applicationRoute.router.url'),
-  currentRouteName: readOnly('applicationRoute.controller.currentRouteName'),
+  currentUrl: readOnly('routerService.currentURL'),
+  currentRouteName: readOnly('routerService.currentRouteName'),
 
   routeHierarchy: computed('currentUrl', 'currentRouteName', 'reverse', {
     get() {
