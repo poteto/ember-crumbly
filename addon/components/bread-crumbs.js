@@ -13,6 +13,7 @@ import { getOwner } from '@ember/application';
 import { A as emberArray } from '@ember/array';
 import { classify } from '@ember/string';
 import layout from '../templates/components/bread-crumbs';
+import { inject as service } from '@ember/service';
 
 const {
   bool,
@@ -20,14 +21,15 @@ const {
 } = computed;
 
 export default Component.extend({
+  routerService: service('router'),
   layout,
   tagName: 'ol',
   linkable: true,
   reverse: false,
   classNameBindings: ['breadCrumbClass'],
   hasBlock: bool('template').readOnly(),
-  currentUrl: readOnly('applicationRoute.router.url'),
-  currentRouteName: readOnly('applicationRoute.controller.currentRouteName'),
+  currentUrl: readOnly('routerService.currentURL'),
+  currentRouteName: readOnly('routerService.currentRouteName'),
 
   routeHierarchy: computed('currentUrl', 'currentRouteName', 'reverse', {
     get() {
