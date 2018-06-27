@@ -2138,6 +2138,12 @@ ember-router-generator@^1.2.3:
   dependencies:
     recast "^0.11.3"
 
+ember-router-service-polyfill@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/ember-router-service-polyfill/-/ember-router-service-polyfill-1.0.3.tgz#506d7fbd7179951410b7ffe8db171540601d88b1"
+  dependencies:
+    ember-cli-babel "^6.8.2"
+
 ember-source-channel-url@^1.0.1:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/ember-source-channel-url/-/ember-source-channel-url-1.1.0.tgz#73de5cc6ebc25b2120e932ec1d8f82677bfaf6ef"
