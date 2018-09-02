@@ -218,7 +218,7 @@ module('Acceptance | ember-crumbly integration test', function(hooks) {
     await click(find('#hansel'));
 
     assert.equal(currentRouteName(), 'foo.bar.baz.show-with-params', 'correct current route name');
-    assert.equal(await findAll('#bootstrapLinkable li')[3].innerText.trim(), 'Hansel McDonald', 'crumb is based on dynamic segment');
+    assert.equal(findAll('#bootstrapLinkable li')[3].innerText.trim(), 'Hansel McDonald', 'crumb is based on dynamic segment');
   });
 
   test('parent route becomes linkable when navigating to child', async function(assert) {
