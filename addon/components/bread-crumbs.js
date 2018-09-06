@@ -33,6 +33,7 @@ export default Component.extend({
 
   routeHierarchy: computed('currentUrl', 'currentRouteName', 'reverse', {
     get() {
+      get(this, 'currentUrl');
       const currentRouteName = getWithDefault(this, 'currentRouteName', false);
 
       assert('[ember-crumbly] Could not find a current route', currentRouteName);
