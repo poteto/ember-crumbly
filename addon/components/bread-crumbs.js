@@ -1,5 +1,5 @@
 import Component from '@ember/component';
-import { copy } from '@ember/object/internals';
+import { copy } from 'ember-copy';
 import { assert } from '@ember/debug';
 import { deprecate } from '@ember/application/deprecations';
 import { typeOf, isPresent } from '@ember/utils';
