@@ -1,38 +1,39 @@
-import Ember from 'ember';
-import layout from '../templates/components/bread-crumbs';
-
-const {
-  get,
-  Component,
-  computed,
-  copy,
-  getWithDefault,
-  assert,
-  deprecate,
-  isPresent,
-  typeOf,
+import Component from '@ember/component';
+import { copy } from 'ember-copy';
+import { assert } from '@ember/debug';
+import { deprecate } from '@ember/application/deprecations';
+import { typeOf, isPresent } from '@ember/utils';
+import {
   setProperties,
-  getOwner,
-  A: emberArray,
-  String: { classify }
-} = Ember;
+  getWithDefault,
+  computed,
+  get
+} from '@ember/object';
+import { getOwner } from '@ember/application';
+import { A as emberArray } from '@ember/array';
+import { classify } from '@ember/string';
+import layout from '../templates/components/bread-crumbs';
+import { inject as service } from '@ember/service';
+
 const {
   bool,
   readOnly
 } = computed;
 
 export default Component.extend({
+  routerService: service('router'),
   layout,
   tagName: 'ol',
   linkable: true,
   reverse: false,
   classNameBindings: ['breadCrumbClass'],
   hasBlock: bool('template').readOnly(),
-  currentUrl: readOnly('applicationRoute.router.url'),
-  currentRouteName: readOnly('applicationRoute.controller.currentRouteName'),
+  currentUrl: readOnly('routerService.currentURL'),
+  currentRouteName: readOnly('routerService.currentRouteName'),
 
   routeHierarchy: computed('currentUrl', 'currentRouteName', 'reverse', {
     get() {
+      get(this, 'currentUrl');
       const currentRouteName = getWithDefault(this, 'currentRouteName', false);
 
       assert('[ember-crumbly] Could not find a current route', currentRouteName);
