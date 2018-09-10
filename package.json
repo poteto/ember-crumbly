@@ -1,6 +1,6 @@
 {
   "name": "ember-crumbly",
-  "version": "1.0.8",
+  "version": "3.0.0",
   "description": "Declarative breadcrumb navigation for Ember apps",
   "keywords": [
     "ember-addon",
