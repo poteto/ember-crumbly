@@ -21,7 +21,6 @@ const {
 } = computed;
 
 export default Component.extend({
-  routerService: service('router'),
   layout,
   tagName: 'ol',
   linkable: true,
