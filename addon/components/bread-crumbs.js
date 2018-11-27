@@ -80,24 +80,34 @@ export default Component.extend({
     return routeNames.filter((name) => !(name === 'index' || name === 'loading'));
   },
 
-  _lookupRoute(routeName) {
-    let routeOwner = getOwner(this);
-    let engineInfo;
-    if (get(this, 'routing.router')._engineInfoByRoute) {
-      engineInfo = get(this, 'routing.router')._engineInfoByRoute[routeName];
-    }
+  /*
+   * Lookup local route first and fallback to engine,
+   * I'm not exactly familiar with local vs engine routes,
+   * but my thinking is you should be able to override an
+   * engine route locally so it should take priority.
+   * I could be totally wrong here...
+   */
+   _lookupRoute(routeName) {
+     return this._lookupLocalRoute(routeName) || this._lookupEngineRoute(routeName);
+   },
 
-    if (engineInfo) {
-      let engineInstance = get(this, 'routing.router')._getEngineInstance(engineInfo);
+   _lookupLocalRoute(routeName) {
+     return getOwner(this).lookup(`route:${routeName}`);
+   },
 
-      routeOwner = engineInstance;
-      routeName = engineInfo.localFullName;
-    }
+   _lookupEngineRoute(routeName) {
+     const router = get(this, 'routing.router');
 
-    let fullRouteName = `route:${routeName}`;
+     let engineInfo = router._engineInfoByRoute[routeName];
 
-    return routeOwner.lookup(fullRouteName);
-  },
+     if (!engineInfo) {
+       return;
+     }
+
+     return router
+       ._getEngineInstance(engineInfo)
+       .lookup(`route:${engineInfo.localFullName}`);
+   },
 
   _lookupBreadCrumb(routeNames, filteredRouteNames) {
     const defaultLinkable = get(this, 'linkable');
