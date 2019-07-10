@@ -123,7 +123,7 @@ module('Acceptance | ember-crumbly integration test', function(hooks) {
 
     const listItems = await findAll('#customBlock li span');
     assert.equal(currentRouteName(), 'animal.quadruped.cow.show', 'correct current route name');
-    assert.equal(listItems[0].textContent, 'Animals at the Zoo', 'returns the right text');
+    assert.equal(listItems[0].textContent, 'Derek Zoolander\'s Zoo for Animals Who Can\'t Read Good and Want to Do Other Stuff Good Too', 'returns the right text');
     assert.equal(listItems[1].textContent, 'Cows', 'returns the right text');
     assert.equal(listItems[2].textContent, 'Mary (5 years old)', 'returns the right text');
   });
@@ -155,7 +155,7 @@ module('Acceptance | ember-crumbly integration test', function(hooks) {
     assert.equal(numberOfRenderedBreadCrumbs, 3, 'renders the correct number of breadcrumbs');
     assert.deepEqual(
       $('#bootstrapLinkable li').map((idx, item) => item.innerText.trim()).toArray(),
-      ['I am Foo Index', 'I am Bar', 'I am Baz']);
+      ['I am Foo', 'I am Bar', 'I am Baz']);
   });
 
   test('reverse option = TRUE renders breadcrumb from left to right', async function(assert) {
@@ -166,7 +166,7 @@ module('Acceptance | ember-crumbly integration test', function(hooks) {
     assert.equal(numberOfRenderedBreadCrumbs, 3, 'renders the correct number of breadcrumbs');
     assert.deepEqual(
       $('#reverseBootstrapLinkable li').map((idx, item) => item.innerText.trim()).toArray(),
-      ['I am Baz', 'I am Bar', 'I am Foo Index']);
+      ['I am Baz', 'I am Bar', 'I am Foo']);
   });
 
   test('bread-crumbs component outputs crumbClass on li elements', async function(assert) {
