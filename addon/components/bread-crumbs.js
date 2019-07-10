@@ -28,6 +28,7 @@ export default Component.extend({
   classNameBindings: ['breadCrumbClass'],
   hasBlock: bool('template').readOnly(),
   routing: service('-routing'),
+  routerService: service('router'),
   currentUrl: readOnly('applicationRoute.router.url'),
   currentRouteName: readOnly('applicationRoute.controller.currentRouteName'),
 
@@ -68,8 +69,9 @@ export default Component.extend({
 
     if (routes.length === 1) {
       let path = `${name}.index`;
-
-      return (this._lookupRoute(path)) ? path : name;
+      
+      const isIndexRouteActive = this.get("routerService").isActive(path);
+      return (isIndexRouteActive) ? path : name;
     }
 
     return routes.join('.');
