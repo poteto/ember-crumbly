@@ -28,8 +28,8 @@ export default Component.extend({
   classNameBindings: ['breadCrumbClass'],
   hasBlock: bool('template').readOnly(),
   routing: service('-routing'),
-  currentUrl: readOnly('routing.currentURL'),
-  currentRouteName: readOnly('routing.currentRouteName'),
+  currentUrl: readOnly('routing.router.currentURL'),
+  currentRouteName: readOnly('routing.router.currentRouteName'),
 
   routeHierarchy: computed('currentUrl', 'currentRouteName', 'reverse', {
     get() {
