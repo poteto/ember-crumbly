@@ -1,13 +1,13 @@
 {{#if route.linkable}}
   {{#link-to route.path class=linkClass}}
-    {{#if hasBlock}}
+    {{#if (has-block)}}
       {{yield this route}}
     {{else}}
       {{route.title}}
     {{/if}}
   {{/link-to}}
 {{else}}
-  {{#if hasBlock}}
+  {{#if (has-block)}}
     {{yield this route}}
   {{else}}
     {{route.title}}
