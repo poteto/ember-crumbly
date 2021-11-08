@@ -1,5 +1,9 @@
 # ember-crumbly ![Download count all time](https://img.shields.io/npm/dt/ember-crumbly.svg) [![CircleCI](https://circleci.com/gh/poteto/ember-crumbly.svg?style=shield)](https://circleci.com/gh/poteto/ember-crumbly) [![npm version](https://badge.fury.io/js/ember-crumbly.svg)](https://badge.fury.io/js/ember-crumbly) [![Ember Observer Score](http://emberobserver.com/badges/ember-crumbly.svg)](http://emberobserver.com/addons/ember-crumbly)
 
+⚠️ **This addon is no longer maintained, please look for an alternative.**
+
+---
+
 Adds a Component to your app that displays the current route hierarchy (commonly known as breadcrumb navigation). Thanks to [@rwjblue](https://github.com/rwjblue) for providing the excellent addon name.
 
 This addon provides a very declarative way to generate dynamic breadcrumbs.
