@@ -28,8 +28,8 @@ export default Component.extend({
   classNameBindings: ['breadCrumbClass'],
   hasBlock: bool('template').readOnly(),
   routing: service('-routing'),
-  currentUrl: readOnly('applicationRoute.router.url'),
-  currentRouteName: readOnly('applicationRoute.controller.currentRouteName'),
+  currentUrl: readOnly('routing.router.currentURL'),
+  currentRouteName: readOnly('routing.router.currentRouteName'),
 
   routeHierarchy: computed('currentUrl', 'currentRouteName', 'reverse', {
     get() {
@@ -68,11 +68,22 @@ export default Component.extend({
 
     if (routes.length === 1) {
       let path = `${name}.index`;
-
-      return (this._lookupRoute(path)) ? path : name;
+      let pathName = this._lookupRoute(path) ? path : name;
+      return this._trimEngineMountName(pathName);
     }
 
-    return routes.join('.');
+    return this._trimEngineMountName(routes.join('.'));
+  },
+
+  _trimEngineMountName(pathName) {
+    let owner = getOwner(this);
+    let { mountPoint } = owner;
+    if(mountPoint) {
+      return pathName.split('.')
+        .splice(1)
+        .join('.');
+    }
+    return pathName;
   },
 
   _filterIndexAndLoadingRoutes(routeNames) {
